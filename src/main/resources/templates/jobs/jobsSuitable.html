@@ -15,7 +15,7 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>List job</title>
+    <title>Job suitable for me</title>
     <meta charset="UTF-8">
     <title>Jobs</title>
     <link
@@ -37,11 +37,7 @@
     </button>
 </div>
 
-<div>
-    <a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">Find suitable job for me</a>
-</div>
-
-<h1 class="text-center">LIST JOBS</h1>
+<h1 class="text-center" th:text="${candidate.fullName}">LIST JOBS THAT SUITABLE FOR </h1>
 <table class="table table-hover">
     <thead>
     </thead>
@@ -58,7 +54,7 @@
 </table>
 <div class="inline" th:if="${jobPage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-    <a th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
+    <a th:href="@{/jobs/suitable(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
        th:text="${pageNumber}"
        th:class="${pageNumber==jobPage.number + 1} ? active"></a>
 </div>

@@ -25,4 +25,10 @@ public class JobServices {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         return jobRepository.findByCompanyId(id, pageable);
     }
+
+    public Page<Job> findSuitableJobsForCandidate(int pageNo, int pageSize, String sortBy, String sortDirection, Long candidateId) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return jobRepository.findSuitableJobsForCandidate(candidateId, pageable);
+    }
 }

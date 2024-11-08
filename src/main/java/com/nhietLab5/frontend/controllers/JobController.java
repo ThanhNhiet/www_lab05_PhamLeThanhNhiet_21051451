@@ -5,10 +5,7 @@ import com.nhietLab5.backend.models.Job;
 import com.nhietLab5.backend.models.JobSkill;
 import com.nhietLab5.backend.models.JobSkillId;
 import com.nhietLab5.backend.models.Skill;
-import com.nhietLab5.backend.repositories.CompanyRepository;
-import com.nhietLab5.backend.repositories.JobRepository;
-import com.nhietLab5.backend.repositories.JobSkillRepository;
-import com.nhietLab5.backend.repositories.SkillRepository;
+import com.nhietLab5.backend.repositories.*;
 import com.nhietLab5.backend.services.JobServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,11 +33,14 @@ public class JobController {
     private JobSkillRepository jobSkillRepository;
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private CandidateRepository candidateRepository;
 
     @GetMapping("/jobs")
     public String showJobListPaging(Model model,
                                     @RequestParam("page") Optional<Integer> page,
-                                    @RequestParam("size") Optional<Integer> size) {
+                                    @RequestParam("size") Optional<Integer> size,
+                                    @RequestParam("candidateId") Optional<Long> candidateId) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Job> jobPage = jobServices.findAll(
@@ -53,6 +53,9 @@ public class JobController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+
+        Long id = candidateId.orElse(null);
+        model.addAttribute("candidate", candidateRepository.findById(id).orElse(null));
         return "jobs/jobs";
     }
 
@@ -137,4 +140,25 @@ public class JobController {
         return "jobs/jobDetails";
     }
 
+    @GetMapping("/jobs/suitable")
+    public String showSuitableJobs(Model model,
+                                   @RequestParam("page") Optional<Integer> page,
+                                   @RequestParam("size") Optional<Integer> size,
+                                   @RequestParam("candidateId") String candidateId) {
+        Long id = Long.parseLong(candidateId);
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        Page<Job> jobPage = jobServices.findSuitableJobsForCandidate(
+                currentPage - 1, pageSize, "id", "asc", id);
+        model.addAttribute("jobPage", jobPage);
+        int totalPages = jobPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("candidate", candidateRepository.findById(id).orElse(null));
+        return "jobs/jobsSuitable";
+    }
 }
