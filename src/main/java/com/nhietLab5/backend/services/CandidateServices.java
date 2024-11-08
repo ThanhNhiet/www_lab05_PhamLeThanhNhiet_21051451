@@ -19,4 +19,11 @@ public class CandidateServices {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         return candidateRepository.findAll(pageable);//findFirst.../findTop...
     }
+
+    public Page<Candidate> findSuitableCandidatesForJob(String jobName, Long companyId,
+                                                        int pageNo, int pageSize, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return candidateRepository.findSuitableCandidatesForJob(jobName, companyId, pageable);
+    }
 }

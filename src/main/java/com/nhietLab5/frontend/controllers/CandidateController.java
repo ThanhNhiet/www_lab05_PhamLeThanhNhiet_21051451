@@ -52,13 +52,29 @@ public class CandidateController {
 
         Long id = companyId.orElse(null);
         model.addAttribute("company", companyRepository.findById(id).orElse(null));
-
-        // Lấy thông tin của công ty nếu có companyId
-//        companyId.ifPresent(id -> {
-//            Company company = companyRepository.findById(id).orElse(null);
-//            model.addAttribute("company", company);
-//        });
-
         return "candidates/candidates-paging";
+    }
+
+    @GetMapping("/candidates/suitable")
+    public String showSuitableCandidatesForJob(Model model,
+                                               @RequestParam("jobName") String jobName,
+                                               @RequestParam("companyId") Long companyId,
+                                               @RequestParam("page") Optional<Integer> page,
+                                               @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        Page<Candidate> candidatePage = candidateServices.findSuitableCandidatesForJob(
+                jobName, companyId, currentPage - 1, pageSize, "id", "asc");
+        model.addAttribute("candidatePage", candidatePage);
+        int totalPages = candidatePage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("jobName", jobName);
+        model.addAttribute("company", companyRepository.findById(companyId).orElse(null));
+        return "candidates/candidatesSuitable";
     }
 }
