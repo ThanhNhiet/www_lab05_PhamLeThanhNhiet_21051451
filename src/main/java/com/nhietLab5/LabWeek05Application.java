@@ -154,6 +154,9 @@ public class LabWeek05Application implements CommandLineRunner {
 //            }
 //            jobSkillRepository.save(jobSkill);
 //        }
-
+//        List<Candidate> candidates = candidateRepository.findCandidatesSuitableForJob((long) 1);
+//        for (Candidate candidate : candidates) {
+//            System.out.println(candidate.getFullName());
+//        }
     }
 }

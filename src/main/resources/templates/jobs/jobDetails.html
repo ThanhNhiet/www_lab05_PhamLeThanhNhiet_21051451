@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    div.inline {
+        color: black;
+        float: left;
+        padding: 5px 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    div.inline a.active {
+        background-color: #FBD603;
+        border: 1px solid darkred;
+    }
+
+    #skillSuggestions {
+        display: none;
+        border: 1px solid #ddd;
+        max-height: 150px;
+        overflow-y: auto;
+        background-color: #fff;
+        position: absolute;
+        width: 80%;
+        z-index: 1000;
+    }
+
+    #skillSuggestions div {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    #skillSuggestions div:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+<head>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Job Detail</title>
+</head>
+<body>
+<h1>Job Detail</h1>
+<div>
+    <p>
+        Job id: <span th:text="${job.id}"></span><br>
+        Job name: <span th:text="${job.jobName}"></span><br>
+        Job description: <span th:text="${job.jobDesc}"></span><br>
+        Company name: <span th:text="${job.company.compName}"></span><br>
+    </p>
+</div>
+<div>
+    <a th:href="@{/myPost(id=${job.company.id})}">My recruitment post</a>
+</div><br>
+
+<div style="position: absolute; right: 0px; padding: 5px">
+    <button>
+        <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
+    </button>
+</div>
+
+<!-- Nút mở modal -->
+<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add new jobskill</a>
+
+<div th:if="${error}" class="alert alert-danger" role="alert">
+    <span th:text="${error}"></span>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Add new jobskill</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="addJobSkill">
+                    <input type="hidden" name="companyId" th:value="${job.company.id}">
+                    <input type="hidden" name="jobId" th:value="${job.id}">
+                    <div class="mb-3">
+                        <label for="skillInput" class="form-label">Skill:</label>
+                        <input type="text" class="form-control" id="skillInput" name="skillName" autocomplete="off">
+                    </div>
+                    <div id="skillSuggestions"></div><!--show skills suggestions-->
+
+                    <div class="mb-3">
+                        <label for="moreInfo" class="form-label">More info:</label>
+                        <input type="text" class="form-control" id="moreInfo" name="moreInfo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="levelSelect" class="form-label">Skill level:</label>
+                        <select class="form-control" id="levelSelect" name="skillLevel">
+                            <option value="MASTER">MASTER</option>
+                            <option value="BEGINNER">BEGINNER</option>
+                            <option value="ADVANCED">ADVANCED</option>
+                            <option value="PROFESSIONAL">PROFESSIONAL</option>
+                            <option value="INTERMEDIATE">INTERMEDIATE</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myEditModalLabel">Edit Recruitment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form trong modal -->
+                <form method="post" action="editJobSkill">
+                    <input type="hidden" name="companyId" th:value="${job.company.id}">
+                    <input type="hidden" id="jobIdInput" name="jobId">
+                    <input type="hidden" id="skillIdInput" name="skillId">
+                    <div class="mb-3">
+                        <label for="editmoreInfo" class="form-label">More info:</label>
+                        <input type="text" class="form-control" id="editmoreInfo" name="moreInfo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editlevelSelect" class="form-label">Skill level:</label>
+                        <select class="form-control" id="editlevelSelect" name="skillLevel">
+                            <option value="MASTER">MASTER</option>
+                            <option value="BEGINNER">BEGINNER</option>
+                            <option value="ADVANCED">ADVANCED</option>
+                            <option value="PROFESSIONAL">PROFESSIONAL</option>
+                            <option value="INTERMEDIATE">INTERMEDIATE</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save change</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1 class="text-center">LIST JOB-SKILL</h1>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Job ID</th>
+        <th>Skill ID</th>
+        <th>More Infos</th>
+        <th>Skill Level</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item, iStat : ${job.jobSkills}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${item.job.jobName}"></td>
+        <td th:text="${item.skill.skillName}"></td>
+        <td th:text="${item.moreInfos}"></td>
+        <td th:text="${item.skillLevel}"></td>
+        <td>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+               th:data-job-id="${item.job.id}"
+                th:data-skill-id="${item.skill.id}">Edit
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/deleteJobSkill(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
+                >Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<script>
+    // JavaScript to handle setting job id in the modal when edit link is clicked
+    document.addEventListener("DOMContentLoaded", function () {
+        const editLinks = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#editModal"]');
+        editLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                const jobId = link.getAttribute("data-job-id");
+                document.getElementById("jobIdInput").value = jobId;
+                const skillId = link.getAttribute("data-skill-id");
+                document.getElementById("skillIdInput").value = skillId;
+            });
+        });
+    });
+
+    // Fetch skills from server
+    async function fetchSkills() {
+        const response = await fetch('/skills');
+        return await response.json();
+    }
+
+    // Show autocomplete suggestions for skills
+    async function autocompleteSkills(event) {
+        const query = event.target.value.toLowerCase();
+        const skills = await fetchSkills();
+        const filteredSkills = skills.filter(skill => skill.toLowerCase().includes(query));
+
+        const suggestionsBox = document.getElementById('skillSuggestions');
+        suggestionsBox.innerHTML = '';
+
+        // Show suggestions in dropdown
+        filteredSkills.forEach(skill => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.textContent = skill;
+            suggestionItem.classList.add('suggestion-item');
+            suggestionItem.style.cursor = 'pointer';
+
+            // Click event to fill input with selected suggestion
+            suggestionItem.onclick = () => {
+                document.getElementById('skillInput').value = skill;
+                suggestionsBox.style.display = 'none';
+            };
+
+            suggestionsBox.appendChild(suggestionItem);
+        });
+
+        // Toggle display of suggestions box
+        suggestionsBox.style.display = filteredSkills.length > 0 ? 'block' : 'none';
+    }
+
+    // Hide suggestions when clicking outside the input or suggestions box
+    document.addEventListener('click', function (event) {
+        const skillInput = document.getElementById('skillInput');
+        const suggestionsBox = document.getElementById('skillSuggestions');
+
+        if (!suggestionsBox.contains(event.target) && event.target !== skillInput) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+
+    // Display suggestions on input in the skill input box
+    document.getElementById('skillInput').addEventListener('input', autocompleteSkills);
+
+    // Show suggestions box when clicking on the input if there are suggestions
+    document.getElementById('skillInput').addEventListener('click', function () {
+        const suggestionsBox = document.getElementById('skillSuggestions');
+        if (suggestionsBox.children.length > 0) {
+            suggestionsBox.style.display = 'block';
+        }
+    });
+</script>
+</html>

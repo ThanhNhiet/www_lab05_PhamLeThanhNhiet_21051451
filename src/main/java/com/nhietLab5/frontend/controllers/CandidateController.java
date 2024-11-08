@@ -1,7 +1,9 @@
 package com.nhietLab5.frontend.controllers;
 
 import com.nhietLab5.backend.models.Candidate;
+import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.repositories.CandidateRepository;
+import com.nhietLab5.backend.repositories.CompanyRepository;
 import com.nhietLab5.backend.services.CandidateServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,8 @@ public class CandidateController {
     private CandidateRepository candidateRepository;
     @Autowired
     private CandidateServices candidateServices;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @GetMapping("/list")
     public String showCandidateList(Model model) {
@@ -31,7 +35,8 @@ public class CandidateController {
     @GetMapping("/candidates")
     public String showCandidateListPaging(Model model,
                                           @RequestParam("page") Optional<Integer> page,
-                                          @RequestParam("size") Optional<Integer> size) {
+                                          @RequestParam("size") Optional<Integer> size,
+                                          @RequestParam("companyId") Optional<Long> companyId) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Candidate> candidatePage= candidateServices.findAll(
@@ -44,6 +49,16 @@ public class CandidateController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+
+        Long id = companyId.orElse(null);
+        model.addAttribute("company", companyRepository.findById(id).orElse(null));
+
+        // Lấy thông tin của công ty nếu có companyId
+//        companyId.ifPresent(id -> {
+//            Company company = companyRepository.findById(id).orElse(null);
+//            model.addAttribute("company", company);
+//        });
+
         return "candidates/candidates-paging";
     }
 }
