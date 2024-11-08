@@ -29,4 +29,8 @@ public class JobSkill {
     @Column(name = "skill_level", nullable = false)
     private SkillLevel skillLevel;
 
+    @Override
+    public String toString() {
+        return skillLevel + "" ;
+    }
 }

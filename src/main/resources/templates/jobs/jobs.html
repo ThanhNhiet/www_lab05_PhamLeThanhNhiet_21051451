@@ -41,6 +41,15 @@
     <a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">Find suitable job for me</a>
 </div>
 
+<div style="border-width: 1px; border-color: #333333; padding: 5px">
+    <form method="get" action="skillsMissing">
+        <input type="hidden" name="candidateId" th:value="${candidate.id}">
+        <input type="text" name="jobName" placeholder="Job Name">
+        <input type="text" name="companyName" placeholder="Company">
+        <input type="submit" value="Find missing skill for this job">
+    </form>
+</div>
+
 <h1 class="text-center">LIST JOBS</h1>
 <table class="table table-hover">
     <thead>

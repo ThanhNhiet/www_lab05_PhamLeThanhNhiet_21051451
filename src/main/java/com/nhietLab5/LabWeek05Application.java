@@ -154,6 +154,8 @@ public class LabWeek05Application implements CommandLineRunner {
 //            }
 //            jobSkillRepository.save(jobSkill);
 //        }
+
+        // Test query
 //        List<Candidate> candidates = candidateRepository.findSuitableCandidatesForJob("Job name 1", 1L);
 //        for (Candidate candidate : candidates) {
 //            System.out.println(candidate.getFullName());
@@ -161,6 +163,10 @@ public class LabWeek05Application implements CommandLineRunner {
 //        List<Job> jobs = jobRepository.findSuitableJobsForCandidate(777L);
 //        for (Job job : jobs) {
 //            System.out.println(job.getJobName());
+//        }
+//        List<Skill> skills = skillRepository.findMissingSkillsForCandidateByJobAndCompany("Job name 1", "Company 1", 14L);
+//        for (Skill skill : skills) {
+//            System.out.println(skill.getSkillName());
 //        }
     }
 }

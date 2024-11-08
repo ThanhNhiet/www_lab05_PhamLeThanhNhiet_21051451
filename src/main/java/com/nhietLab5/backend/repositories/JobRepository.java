@@ -1,5 +1,6 @@
 package com.nhietLab5.backend.repositories;
 
+import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.models.Job;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,8 @@ import java.util.List;
 
 public interface JobRepository extends JpaRepository<Job, Long> {
     Page<Job> findByCompanyId(Long compId, Pageable pageable);
+
+    Job findByJobNameAndCompany_CompName(String jobName, String company);
 
     @Query("SELECT j FROM Job j " +
             "JOIN j.jobSkills js " +
