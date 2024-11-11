@@ -67,7 +67,6 @@
     </button>
 </div>
 
-<!-- Nút mở modal -->
 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add new jobskill</a>
 
 <div th:if="${error}" class="alert alert-danger" role="alert">
@@ -122,7 +121,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Form trong modal -->
                 <form method="post" action="editJobSkill">
                     <input type="hidden" name="companyId" th:value="${job.company.id}">
                     <input type="hidden" id="jobIdInput" name="jobId">
@@ -185,7 +183,6 @@
 </table>
 </body>
 <script>
-    // JavaScript to handle setting job id in the modal when edit link is clicked
     document.addEventListener("DOMContentLoaded", function () {
         const editLinks = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#editModal"]');
         editLinks.forEach(link => {
@@ -198,13 +195,12 @@
         });
     });
 
-    // Fetch skills from server
+    // Fetch skills
     async function fetchSkills() {
         const response = await fetch('/skills');
         return await response.json();
     }
 
-    // Show autocomplete suggestions for skills
     async function autocompleteSkills(event) {
         const query = event.target.value.toLowerCase();
         const skills = await fetchSkills();
@@ -213,14 +209,13 @@
         const suggestionsBox = document.getElementById('skillSuggestions');
         suggestionsBox.innerHTML = '';
 
-        // Show suggestions in dropdown
+        // Show suggestions dropdown
         filteredSkills.forEach(skill => {
             const suggestionItem = document.createElement('div');
             suggestionItem.textContent = skill;
             suggestionItem.classList.add('suggestion-item');
             suggestionItem.style.cursor = 'pointer';
 
-            // Click event to fill input with selected suggestion
             suggestionItem.onclick = () => {
                 document.getElementById('skillInput').value = skill;
                 suggestionsBox.style.display = 'none';
@@ -229,11 +224,10 @@
             suggestionsBox.appendChild(suggestionItem);
         });
 
-        // Toggle display of suggestions box
         suggestionsBox.style.display = filteredSkills.length > 0 ? 'block' : 'none';
     }
 
-    // Hide suggestions when clicking outside the input or suggestions box
+    //hide
     document.addEventListener('click', function (event) {
         const skillInput = document.getElementById('skillInput');
         const suggestionsBox = document.getElementById('skillSuggestions');
@@ -243,10 +237,8 @@
         }
     });
 
-    // Display suggestions on input in the skill input box
     document.getElementById('skillInput').addEventListener('input', autocompleteSkills);
 
-    // Show suggestions box when clicking on the input if there are suggestions
     document.getElementById('skillInput').addEventListener('click', function () {
         const suggestionsBox = document.getElementById('skillSuggestions');
         if (suggestionsBox.children.length > 0) {

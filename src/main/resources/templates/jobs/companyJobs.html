@@ -55,14 +55,12 @@
         <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
     </button>
 </div>
-<!-- Nút mở modal -->
 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Post New Recruitment</a>
 
 <div th:if="${error}" class="alert alert-danger" role="alert">
     <span th:text="${error}"></span>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -71,7 +69,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Form trong modal -->
                 <form method="post" action="addJob">
                     <div class="mb-3">
                         <label for="company" class="form-label">Company</label>
@@ -101,7 +98,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Form trong modal -->
                 <form method="post" action="editJob">
                     <input type="hidden" id="jobIdInput" name="jobId">
                     <div class="mb-3">
@@ -154,7 +150,6 @@ ${pageNumbers}">
 
 </body>
 <script>
-    // JavaScript to handle setting job id in the modal when edit link is clicked
     document.addEventListener("DOMContentLoaded", function () {
         const editLinks = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#editModal"]');
         editLinks.forEach(link => {
