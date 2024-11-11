@@ -102,9 +102,7 @@ public class JobController {
                           @RequestParam("jobName") String jobName,
                           @RequestParam("jobDesc") String jobDesc) {
         Long companyId = Long.parseLong(id);
-        // Find the job
         jobRepository.findById(Long.parseLong(jobId)).ifPresent(job -> {
-            // Update the job
             job.setJobName(jobName);
             job.setJobDesc(jobDesc);
             jobRepository.save(job);
@@ -120,11 +118,9 @@ public class JobController {
                 jobSkillRepository.delete(jobSkill);
             }
         }
-        // Find and delete the job
         jobRepository.findById(jobId).ifPresent(job -> {
             jobRepository.delete(job);
         });
-        // Redirect to the list of jobs for the company
         return "redirect:/myPost?id=" + companyId;
     }
 
