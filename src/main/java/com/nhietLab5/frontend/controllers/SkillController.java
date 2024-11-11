@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/skills")
 public class SkillController {
     @Autowired
     private SkillRepository skillRepository;
@@ -27,7 +29,7 @@ public class SkillController {
     @Autowired
     private JobSkillRepository jobSkillRepository;
 
-    @GetMapping("/skills")
+    @GetMapping("/list")
     @ResponseBody
     public List<String> getSkillNames() {
         List<Skill> skills = skillRepository.findAll();
@@ -36,7 +38,7 @@ public class SkillController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/skillsMissing")
+    @GetMapping("/missing")
     public String getSkillsMissing(Model model,
                                    @RequestParam("candidateId") Optional<Long> candidateId,
                                    @RequestParam("jobName") Optional<String> jobName,
@@ -44,6 +46,8 @@ public class SkillController {
         Long canId = candidateId.orElse(1L);
         String sJobName = jobName.orElse(null);
         String sCompanyName = companyName.orElse(null);
+
+        model.addAttribute("candidateId", canId);
 
         List<Skill> skills = skillRepository.findMissingSkillsForCandidateByJobAndCompany(sJobName, sCompanyName, canId);
         model.addAttribute("skillsMissing", skills);

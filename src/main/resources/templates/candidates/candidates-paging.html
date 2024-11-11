@@ -38,10 +38,10 @@
 </div>
 
 <div th:if="${company != null}">
-    <a th:href="@{/myPost(id=${company.id})}">My recruitment post</a>
+    <a th:href="@{/jobs/myPost(id=${company.id})}">My recruitment post</a>
 </div>
 
-<form method="get" action="candidates/suitable">
+<form method="get" action="/candidates/suitable">
     <input type="hidden" name="companyId" th:value="${company.id}">
     <input style="width: 20%" type="text" name="jobName" placeholder="find suitable candidate for company job">
     <button type="submit">Search</button>
@@ -65,7 +65,7 @@
 </table>
 <div class="inline" th:if="${candidatePage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-    <a th:href="@{/candidates(size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
+    <a th:href="@{/candidates/list(size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
        th:text="${pageNumber}"
        th:class="${pageNumber==candidatePage.number + 1} ? active"></a>
 </div>

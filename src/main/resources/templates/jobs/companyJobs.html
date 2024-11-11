@@ -55,6 +55,11 @@
         <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
     </button>
 </div>
+
+<div>
+    <a th:href="@{/candidates/list(companyId=${companyId})}">Back to candidates list</a>
+</div><br>
+
 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Post New Recruitment</a>
 
 <div th:if="${error}" class="alert alert-danger" role="alert">
@@ -69,10 +74,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="addJob">
+                <form method="post" action="add">
                     <div class="mb-3">
-                        <label for="company" class="form-label">Company</label>
-                        <input type="text" class="form-control" id="company" name="companyId" th:value="${companyId}">
+                        <input type="hidden" class="form-control" id="company" name="companyId" th:value="${companyId}">
                     </div>
                     <div class="mb-3">
                         <label for="jobName" class="form-label">Job Name</label>
@@ -98,11 +102,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="editJob">
+                <form method="post" action="edit">
                     <input type="hidden" id="jobIdInput" name="jobId">
                     <div class="mb-3">
-                        <label for="company" class="form-label">Company</label>
-                        <input readonly type="text" class="form-control" id="editCompany" name="companyId"
+                        <input readonly type="hidden" class="form-control" id="editCompany" name="companyId"
                                th:value="${companyId}">
                     </div>
                     <div class="mb-3">
@@ -134,15 +137,15 @@
         <td th:text="${job.jobName}"></td>
         <td th:text="${job.company}"></td>
         <td th:text="${job.jobDesc}"></td>
-        <td><a th:href="@{/jobDetail(jobId=${job.id}, companyId=${companyId})}">Detail</a></td>
+        <td><a th:href="@{/jobs/jobDetail(jobId=${job.id}, companyId=${companyId})}">Detail</a></td>
         <td><a href="#" data-bs-toggle="modal" data-bs-target="#editModal" th:data-job-id="${job.id}">Edit</a></td>
-        <td><a th:href="@{/deleteJob(jobId=${job.id}, companyId=${companyId})}">Delete</a></td>
+        <td><a th:href="@{/jobs/delete(jobId=${job.id}, companyId=${companyId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>
 <div class="inline" th:if="${jobPage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-    <a th:href="@{/myPost(size=${jobPage.size}, page=${pageNumber}, id=${companyId})}"
+    <a th:href="@{/jobs/myPost(size=${jobPage.size}, page=${pageNumber}, id=${companyId})}"
        th:text="${pageNumber}"
        th:class="${pageNumber==jobPage.number + 1} ? active"></a>
 </div>

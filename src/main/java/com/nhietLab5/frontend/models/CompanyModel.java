@@ -15,7 +15,7 @@ public class CompanyModel {
         ModelAndView modelAndView;
         Company company = companyRepository.findById(id).orElse(null);
         if (company != null) {
-            modelAndView = new ModelAndView("redirect:/candidates?companyId=" + id);
+            modelAndView = new ModelAndView("redirect:/candidates/list?companyId=" + id);
             return modelAndView;
         } else {
             modelAndView = new ModelAndView("index");

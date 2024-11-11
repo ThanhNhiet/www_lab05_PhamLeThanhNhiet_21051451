@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/jobs/jobDetail")
 public class JobSkillController {
     @Autowired
     private JobSkillRepository jobSkillRepository;
@@ -22,7 +24,7 @@ public class JobSkillController {
     @Autowired
     private SkillRepository skillRepository;
 
-    @PostMapping("/addJobSkill")
+    @PostMapping("/add")
     public String addJobSkill(Model model,
                               @RequestParam("companyId") String companyId,
                               @RequestParam("jobId") String jobId,
@@ -43,12 +45,12 @@ public class JobSkillController {
             jobSkillRepository.save(jobSkill);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 
-    @PostMapping("/editJobSkill")
+    @PostMapping("/edit")
     public String editJobSkill(Model model,
                                @RequestParam("companyId") String companyId,
                                @RequestParam("jobId") String jobId,
@@ -65,12 +67,12 @@ public class JobSkillController {
             jobSkillRepository.save(jobSkill);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 
-    @GetMapping("/deleteJobSkill")
+    @GetMapping("/delete")
     public String deleteJobSkill(Model model,
                                  @RequestParam("companyId") String companyId,
                                  @RequestParam("jobId") String jobId,
@@ -82,8 +84,8 @@ public class JobSkillController {
             jobSkillRepository.deleteById(jobSkillId);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 }

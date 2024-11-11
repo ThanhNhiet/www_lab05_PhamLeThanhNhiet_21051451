@@ -15,7 +15,7 @@ public class CandidateModel {
         ModelAndView modelAndView;
         Candidate candidate = candidateRepository.findById(id).orElse(null);
         if (candidate != null) {
-            modelAndView = new ModelAndView("redirect:/jobs?candidateId=" + id);
+            modelAndView = new ModelAndView("redirect:/jobs/list?candidateId=" + id);
             return modelAndView;
         } else {
             modelAndView = new ModelAndView("index");

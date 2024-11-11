@@ -58,7 +58,7 @@
     </p>
 </div>
 <div>
-    <a th:href="@{/myPost(id=${job.company.id})}">My recruitment post</a>
+    <a th:href="@{/jobs/myPost(id=${job.company.id})}">My recruitment post</a>
 </div><br>
 
 <div style="position: absolute; right: 0px; padding: 5px">
@@ -82,7 +82,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="addJobSkill">
+                <form method="post" action="jobDetail/add">
                     <input type="hidden" name="companyId" th:value="${job.company.id}">
                     <input type="hidden" name="jobId" th:value="${job.id}">
                     <div class="mb-3">
@@ -121,7 +121,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="editJobSkill">
+                <form method="post" action="jobDetail/edit">
                     <input type="hidden" name="companyId" th:value="${job.company.id}">
                     <input type="hidden" id="jobIdInput" name="jobId">
                     <input type="hidden" id="skillIdInput" name="skillId">
@@ -174,7 +174,7 @@
             </a>
         </td>
         <td>
-            <a th:href="@{/deleteJobSkill(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
+            <a th:href="@{/jobs/jobDetail/delete(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
                 >Delete
             </a>
         </td>
@@ -197,7 +197,7 @@
 
     // Fetch skills
     async function fetchSkills() {
-        const response = await fetch('/skills');
+        const response = await fetch('/skills/list');
         return await response.json();
     }
 

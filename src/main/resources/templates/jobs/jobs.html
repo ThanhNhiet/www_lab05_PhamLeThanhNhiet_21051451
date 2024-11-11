@@ -42,7 +42,7 @@
 </div>
 
 <div style="border-width: 1px; border-color: #333333; padding: 5px">
-    <form method="get" action="skillsMissing">
+    <form method="get" action="/skills/missing">
         <input type="hidden" name="candidateId" th:value="${candidate.id}">
         <input type="text" name="jobName" placeholder="Job Name">
         <input type="text" name="companyName" placeholder="Company">
@@ -67,7 +67,7 @@
 </table>
 <div class="inline" th:if="${jobPage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-    <a th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
+    <a th:href="@{/jobs/list(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
        th:text="${pageNumber}"
        th:class="${pageNumber==jobPage.number + 1} ? active"></a>
 </div>

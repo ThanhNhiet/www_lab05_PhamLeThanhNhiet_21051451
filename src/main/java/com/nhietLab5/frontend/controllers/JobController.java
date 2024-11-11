@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
+@RequestMapping("/jobs")
 public class JobController {
     @Autowired
     private JobRepository jobRepository;
@@ -36,7 +34,7 @@ public class JobController {
     @Autowired
     private CandidateRepository candidateRepository;
 
-    @GetMapping("/jobs")
+    @GetMapping("/list")
     public String showJobListPaging(Model model,
                                     @RequestParam("page") Optional<Integer> page,
                                     @RequestParam("size") Optional<Integer> size,
@@ -81,7 +79,7 @@ public class JobController {
         return "jobs/companyJobs";
     }
 
-    @PostMapping("/addJob")
+    @PostMapping("/add")
     public String addJob(Model model,
                          @RequestParam("companyId") String id,
                          @RequestParam("jobName") String jobName,
@@ -92,10 +90,10 @@ public class JobController {
         job.setCompany(companyRepository.findById(companyId).orElse(null));
         job.setJobDesc(jobDesc);
         jobRepository.save(job);
-        return "redirect:/myPost?id=" + companyId;
+        return "redirect:/jobs/myPost?id=" + companyId;
     }
 
-    @PostMapping("/editJob")
+    @PostMapping("/edit")
     public String editJob(Model model,
                           @RequestParam("jobId") String jobId,
                           @RequestParam("companyId") String id,
@@ -107,10 +105,10 @@ public class JobController {
             job.setJobDesc(jobDesc);
             jobRepository.save(job);
         });
-        return "redirect:/myPost?id=" + companyId;
+        return "redirect:/jobs/myPost?id=" + companyId;
     }
 
-    @GetMapping("/deleteJob")
+    @GetMapping("/delete")
     public String deleteJob(@RequestParam("jobId") Long jobId, @RequestParam("companyId") Long companyId) {
         List<JobSkill> jobSkills = jobSkillRepository.findAllByJobId(jobId);
         if(jobSkills != null) {
@@ -121,7 +119,7 @@ public class JobController {
         jobRepository.findById(jobId).ifPresent(job -> {
             jobRepository.delete(job);
         });
-        return "redirect:/myPost?id=" + companyId;
+        return "redirect:/jobs/myPost?id=" + companyId;
     }
 
     @GetMapping("/jobDetail")
@@ -136,7 +134,7 @@ public class JobController {
         return "jobs/jobDetails";
     }
 
-    @GetMapping("/jobs/suitable")
+    @GetMapping("/suitable")
     public String showSuitableJobs(Model model,
                                    @RequestParam("page") Optional<Integer> page,
                                    @RequestParam("size") Optional<Integer> size,

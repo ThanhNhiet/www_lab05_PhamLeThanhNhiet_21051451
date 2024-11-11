@@ -37,6 +37,10 @@
     </button>
 </div>
 
+<div>
+    <a th:href="@{/jobs/list(candidateId=${candidate.id})}">Back to jobs list</a>
+</div><br>
+
 <h1 class="text-center" th:text="${candidate.fullName}">LIST JOBS THAT SUITABLE FOR </h1>
 <table class="table table-hover">
     <thead>

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
+@RequestMapping("/candidates")
 public class CandidateController {
     @Autowired
     private CandidateRepository candidateRepository;
@@ -27,12 +29,6 @@ public class CandidateController {
     private CompanyRepository companyRepository;
 
     @GetMapping("/list")
-    public String showCandidateList(Model model) {
-        model.addAttribute("candidates", candidateRepository.findAll());
-        return "candidates/candidates";
-    }
-
-    @GetMapping("/candidates")
     public String showCandidateListPaging(Model model,
                                           @RequestParam("page") Optional<Integer> page,
                                           @RequestParam("size") Optional<Integer> size,
@@ -55,7 +51,7 @@ public class CandidateController {
         return "candidates/candidates-paging";
     }
 
-    @GetMapping("/candidates/suitable")
+    @GetMapping("/suitable")
     public String showSuitableCandidatesForJob(Model model,
                                                @RequestParam("jobName") String jobName,
                                                @RequestParam("companyId") Long companyId,

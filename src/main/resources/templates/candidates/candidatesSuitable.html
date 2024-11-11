@@ -38,7 +38,7 @@
 </div>
 
 <div th:if="${company != null}">
-    <a th:href="@{/myPost(id=${company.id})}">My recruitment post</a>
+    <a th:href="@{/candidates/list(companyId=${company.id})}">Return list candidates</a>
 </div>
 
 <h1 class="text-center">LIST CANDIDATES SUITABLE FOR <span th:text="${jobName}"></span></h1>

@@ -40,6 +40,10 @@
     Company name: <span th:text="${job.company.compName}"></span>
 </div>
 
+<div>
+    <a th:href="@{/jobs/list(candidateId=${candidateId})}">Back to jobs list</a>
+</div><br>
+
 <h1 style="text-align: center; align-items: center; align-content: center">Skill that you missing</h1>
 <table class="table table-hover">
     <thead>
