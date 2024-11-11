@@ -30,9 +30,9 @@ public class SkillController {
     @GetMapping("/skills")
     @ResponseBody
     public List<String> getSkillNames() {
-        List<Skill> skills = skillRepository.findAll(); // Lấy tất cả các kỹ năng từ cơ sở dữ liệu
+        List<Skill> skills = skillRepository.findAll();
         return skills.stream()
-                .map(Skill::getSkillName)  // Chỉ lấy tên kỹ năng
+                .map(Skill::getSkillName)
                 .collect(Collectors.toList());
     }
 
