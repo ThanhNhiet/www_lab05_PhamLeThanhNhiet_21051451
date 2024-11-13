@@ -29,6 +29,17 @@ public class JobSkill {
     @Column(name = "skill_level", nullable = false)
     private SkillLevel skillLevel;
 
+    public JobSkill() {
+    }
+
+    public JobSkill(JobSkillId id, Job job, Skill skill, String moreInfos, SkillLevel skillLevel) {
+        this.id = id;
+        this.job = job;
+        this.skill = skill;
+        this.moreInfos = moreInfos;
+        this.skillLevel = skillLevel;
+    }
+
     @Override
     public String toString() {
         return skillLevel + "" ;

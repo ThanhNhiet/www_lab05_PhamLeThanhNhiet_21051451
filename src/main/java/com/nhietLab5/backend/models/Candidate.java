@@ -35,4 +35,15 @@ public class Candidate {
 
     @OneToMany(mappedBy = "can", fetch = FetchType.LAZY)
     private List<CandidateSkill> candidateSkills;
+
+    public Candidate() {
+    }
+
+    public Candidate(LocalDate dob, String email, String fullName, String phone, Address address) {
+        this.dob = dob;
+        this.email = email;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.address = address;
+    }
 }

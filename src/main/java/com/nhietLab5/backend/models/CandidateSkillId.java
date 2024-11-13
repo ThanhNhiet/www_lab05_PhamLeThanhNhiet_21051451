@@ -20,6 +20,14 @@ public class CandidateSkillId implements Serializable {
     @Column(name = "skill_id", nullable = false)
     private Long skillId;
 
+    public CandidateSkillId() {
+    }
+
+    public CandidateSkillId(Long canId, Long skillId) {
+        this.canId = canId;
+        this.skillId = skillId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

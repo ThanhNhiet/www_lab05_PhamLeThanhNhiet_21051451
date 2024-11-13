@@ -33,6 +33,7 @@ public class Company {
     @JoinColumn(name = "address", nullable = false)
     private Address address;
 
+
     @Override
     public String toString() {
         return compName + ", " + email + ", " + phone;

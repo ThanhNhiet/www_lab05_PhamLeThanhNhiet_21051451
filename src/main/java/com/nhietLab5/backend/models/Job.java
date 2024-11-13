@@ -29,4 +29,12 @@ public class Job {
     @OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
     private List<JobSkill> jobSkills;
 
+    public Job() {
+    }
+
+    public Job(String jobDesc, String jobName, Company company) {
+        this.jobDesc = jobDesc;
+        this.jobName = jobName;
+        this.company = company;
+    }
 }
