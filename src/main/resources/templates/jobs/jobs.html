@@ -48,6 +48,13 @@
         <input type="text" name="companyName" placeholder="Company">
         <input type="submit" value="Find missing skill for this job">
     </form>
+</div><br><br>
+
+<div>
+    <form method="get" action="#">
+        <input type="hidden" name="candidateId" th:value="${candidate.id}">
+        <input type="submit" value="Suggest skill to learn?">
+    </form>
 </div>
 
 <h1 class="text-center">LIST JOBS</h1>
