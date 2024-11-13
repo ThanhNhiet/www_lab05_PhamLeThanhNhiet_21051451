@@ -19,7 +19,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
             "JOIN j.company co " +
             "WHERE j.jobName = :jobName " +
             "AND co.id = :companyId " +
-            "AND js.skillLevel = cs.skillLevel " +
+            "AND cs.skillLevel >= js.skillLevel " +
             "GROUP BY c.id " +
             "HAVING COUNT(cs.skill.id) = (SELECT COUNT(jsInner.skill.id) " +
             "                             FROM JobSkill jsInner " +

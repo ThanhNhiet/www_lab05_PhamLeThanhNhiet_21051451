@@ -19,7 +19,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "JOIN j.jobSkills js " +
             "JOIN CandidateSkill cs ON js.skill.id = cs.skill.id " +
             "WHERE cs.can.id = :candidateId " +
-            "AND js.skillLevel <= cs.skillLevel " +
+            "AND cs.skillLevel >= js.skillLevel " +
             "GROUP BY j.id " +
             "HAVING COUNT(js.skill.id) = (SELECT COUNT(jsInner.skill.id) " +
             "                             FROM JobSkill jsInner " +
