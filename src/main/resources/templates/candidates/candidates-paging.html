@@ -41,11 +41,15 @@
     <a th:href="@{/jobs/myPost(id=${company.id})}">My recruitment post</a>
 </div>
 
-<form method="get" action="/candidates/suitable">
-    <input type="hidden" name="companyId" th:value="${company.id}">
-    <input style="width: 20%" type="text" name="jobName" placeholder="find suitable candidate for company job">
-    <button type="submit">Search</button>
-</form>
+<div>
+    <h4>find suitable candidate for company job</h4>
+    <form method="get" action="/candidates/suitable">
+        <input type="hidden" name="companyId" th:value="${company.id}">
+        <input style="width: 20%" type="text" name="jobName" placeholder="input name job">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
 <h1 class="text-center">LIST CANDIDATES</h1>
 <table class="table table-hover">
     <thead>
