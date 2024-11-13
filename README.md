@@ -5,4 +5,4 @@
 3. Công ty có thể tìm các ứng viên có skill phù hợp với job mà công ty đưa ra
 4. Ứng viên có thể tìm được công việc phù hợp với skill của mình
 5. Ứng viên được đề xuát skill để học nếu có skill chưa phù hợp với job name.
-### Có ảnh demo ở thư mục Demo_img
+### Có ảnh demo ở file Demo_Img.docx
