@@ -56,7 +56,7 @@
         <td th:text="${candidate.phone}"></td>
         <td th:text="${candidate.email}"></td>
         <td>
-            <a th:href="@{/sendEmail(compEmail=${company.email}, canEmail=${candidate.email})}">send invitation email</a>
+            <a th:href="@{/candidates/sendEmail(compEmail=${company.email}, canEmail=${candidate.email})}">send invitation email</a>
         </td>
     </tr>
     </tbody>

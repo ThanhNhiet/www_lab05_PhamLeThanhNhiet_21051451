@@ -28,4 +28,5 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
             "                             AND jInner.company.id = :companyId)")
     Page<Candidate> findSuitableCandidatesForJob(@Param("jobName") String jobName, @Param("companyId") Long companyId, Pageable pageable);
 
+    Candidate findByEmail(String email);
 }

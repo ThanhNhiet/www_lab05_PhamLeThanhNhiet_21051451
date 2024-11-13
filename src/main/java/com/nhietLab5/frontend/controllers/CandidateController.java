@@ -5,6 +5,7 @@ import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.repositories.CandidateRepository;
 import com.nhietLab5.backend.repositories.CompanyRepository;
 import com.nhietLab5.backend.services.CandidateServices;
+import com.nhietLab5.backend.services.EmailSenderServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class CandidateController {
     private CandidateServices candidateServices;
     @Autowired
     private CompanyRepository companyRepository;
+    @Autowired
+    private EmailSenderServices emailSenderServices;
 
     @GetMapping("/list")
     public String showCandidateListPaging(Model model,
@@ -72,5 +75,30 @@ public class CandidateController {
         model.addAttribute("jobName", jobName);
         model.addAttribute("company", companyRepository.findById(companyId).orElse(null));
         return "candidates/candidatesSuitable";
+    }
+
+    @GetMapping("/sendEmail")
+    public String sendEmail(@RequestParam("compEmail") String compEmail,
+                            @RequestParam("canEmail") String canEmail) {
+        Candidate candidate = candidateRepository.findByEmail(canEmail);
+        Company company = companyRepository.findByEmail(compEmail);
+        try {
+            emailSenderServices.sendEmail(
+                    compEmail,
+                    canEmail,
+                    "Job Offer",
+                    "Dear " + candidate.getFullName() + ",\n" +
+                            "We are pleased to offer you a job at " + company.getCompName() + ".\n" +
+                            "Please contact us for more information.\n" +
+                            "Best regards,\n" +
+                            company.getCompName() + "."
+            );
+        }catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/jobs/list?candidateId=" + candidate.getId();
+        }
+
+
+        return "redirect:/jobs/list?candidateId=" + candidate.getId();
     }
 }
