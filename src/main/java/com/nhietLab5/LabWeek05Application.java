@@ -39,8 +39,8 @@ public class LabWeek05Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //First Run
-        //Address
+//        //First Run
+//        //Address
 //        Address address1 = new Address("lien ap 123", "HCM", CountryCode.VN, "123", "70000");
 //        addressRepository.save(address1);
 //        Address address2 = new Address("lien ap 456", "HCM", CountryCode.VN, "456", "70000");
@@ -107,8 +107,21 @@ public class LabWeek05Application implements CommandLineRunner {
 //        CandidateSkill candidateSkill7 = new CandidateSkill(candidateSkillId7, candidate2, skill2, "none", SkillLevel.PROFESSIONAL);
 //        candidateSkillRepository.save(candidateSkill7);
 //        CandidateSkillId candidateSkillId8 = new CandidateSkillId(candidate2.getId(), skill8.getId());
-//        CandidateSkill candidateSkill8 = new CandidateSkill(candidateSkillId8, candidate2, skill8, "none", SkillLevel.BEGINNER);
+//        CandidateSkill candidateSkill8 = new CandidateSkill(candidateSkillId8, candidate2, skill10, "none", SkillLevel.ADVANCED);
 //        candidateSkillRepository.save(candidateSkill8);
+//
+//        CandidateSkillId candidateSkillId9 = new CandidateSkillId(candidate3.getId(), skill1.getId());
+//        CandidateSkill candidateSkill9 = new CandidateSkill(candidateSkillId9, candidate3, skill1, "none", SkillLevel.BEGINNER);
+//        candidateSkillRepository.save(candidateSkill9);
+//        CandidateSkillId candidateSkillId10 = new CandidateSkillId(candidate3.getId(), skill10.getId());
+//        CandidateSkill candidateSkill10 = new CandidateSkill(candidateSkillId10, candidate3, skill10, "none", SkillLevel.MASTER);
+//        candidateSkillRepository.save(candidateSkill10);
+//        CandidateSkillId candidateSkillId11 = new CandidateSkillId(candidate3.getId(), skill5.getId());
+//        CandidateSkill candidateSkill11 = new CandidateSkill(candidateSkillId11, candidate3, skill5, "none", SkillLevel.PROFESSIONAL);
+//        candidateSkillRepository.save(candidateSkill11);
+//        CandidateSkillId candidateSkillId12 = new CandidateSkillId(candidate3.getId(), skill6.getId());
+//        CandidateSkill candidateSkill12 = new CandidateSkill(candidateSkillId12, candidate3, skill6, "none", SkillLevel.PROFESSIONAL);
+//        candidateSkillRepository.save(candidateSkill12);
 //
 //        Company com1 = new Company();
 //        com1.setAddress(address3);
@@ -141,10 +154,10 @@ public class LabWeek05Application implements CommandLineRunner {
 //        JobSkill jobSkill4 = new JobSkill(jobSkillId4, job2, skill6, "none", SkillLevel.PROFESSIONAL);
 //        jobSkillRepository.save(jobSkill4);
 //        JobSkillId jobSkillId5 = new JobSkillId(job3.getId(), skill1.getId());
-//        JobSkill jobSkill5 = new JobSkill(jobSkillId5, job3, skill1, "none", SkillLevel.ADVANCED);
+//        JobSkill jobSkill5 = new JobSkill(jobSkillId5, job3, skill1, "none", SkillLevel.MASTER);
 //        jobSkillRepository.save(jobSkill5);
-
-        //Second Run. change app.pro to update
+//
+//        //Second Run. change app.pro to update
 //        Random rnd = new Random();
 //        for (int i = 1; i <= 100; i++) {
 //            Address add = new Address();
@@ -241,7 +254,7 @@ public class LabWeek05Application implements CommandLineRunner {
 //            jobSkillRepository.save(jobSkill);
 //        }
 
-        // Test query
+         //Test query
 //        List<Candidate> candidates = candidateRepository.findSuitableCandidatesForJob("Job name 1", 1L);
 //        for (Candidate candidate : candidates) {
 //            System.out.println(candidate.getFullName());

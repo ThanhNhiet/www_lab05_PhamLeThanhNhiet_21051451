@@ -1,9 +1,9 @@
 package com.nhietLab5.backend.enums;
 
 public enum SkillLevel {
-    MASTER,
     BEGINNER,
+    INTERMEDIATE,
     ADVANCED,
-    PROFESSIONAL,
-    INTERMEDIATE;
+    MASTER,
+    PROFESSIONAL;
 }
