@@ -95,10 +95,10 @@ public class CandidateController {
             );
         }catch (Exception e){
             e.printStackTrace();
-            return "redirect:/jobs/list?candidateId=" + candidate.getId();
+            return "redirect:/candidates/list?companyId=" + company.getId();
         }
 
 
-        return "redirect:/jobs/list?candidateId=" + candidate.getId();
+        return "redirect:/candidates/list?companyId=" + company.getId();
     }
 }
