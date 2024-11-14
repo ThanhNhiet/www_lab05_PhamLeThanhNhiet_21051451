@@ -36,6 +36,5 @@ public class Skill {
         this.skillDescription = skillDescription;
         this.skillName = skillName;
         this.type = type;
-        this.jobSkills = jobSkills;
     }
 }

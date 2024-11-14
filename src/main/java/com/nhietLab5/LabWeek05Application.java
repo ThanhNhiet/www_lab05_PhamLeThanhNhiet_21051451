@@ -5,6 +5,7 @@ import com.nhietLab5.backend.enums.SkillLevel;
 import com.nhietLab5.backend.enums.SkillType;
 import com.nhietLab5.backend.models.*;
 import com.nhietLab5.backend.repositories.*;
+import com.nhietLab5.backend.services.SkillsRecommendServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @SpringBootApplication
@@ -36,6 +38,8 @@ public class LabWeek05Application implements CommandLineRunner {
     private CandidateSkillRepository candidateSkillRepository;
     @Autowired
     private JobSkillRepository jobSkillRepository;
+    @Autowired
+    private SkillsRecommendServices skillsRecommendServices;
 
     @Override
     public void run(String... args) throws Exception {
@@ -266,6 +270,12 @@ public class LabWeek05Application implements CommandLineRunner {
 //        List<Skill> skills = skillRepository.findMissingSkillsForCandidateByJobAndCompany("Job name 1", "Company 1", 14L);
 //        for (Skill skill : skills) {
 //            System.out.println(skill.getSkillName());
+//        }
+
+        //Test AI service -> fail
+//        Map<Long, String> recommendedSkills = skillsRecommendServices.recommendSkillsForCandidate(1L, "BA", "Green Tech");
+//        for (Map.Entry<Long, String> entry : recommendedSkills.entrySet()) {
+//            System.out.println("Skill ID: " + entry.getKey() + " - Reason: " + entry.getValue());
 //        }
     }
 }
