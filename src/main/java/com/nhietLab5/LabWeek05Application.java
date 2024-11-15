@@ -40,10 +40,11 @@ public class LabWeek05Application implements CommandLineRunner {
     private JobSkillRepository jobSkillRepository;
     @Autowired
     private SkillsRecommendServices skillsRecommendServices;
+    @Autowired
+    private ExperienceRepository experienceRepository;
 
     @Override
     public void run(String... args) throws Exception {
-//        //First Run
 //        //Address
 //        Address address1 = new Address("lien ap 123", "HCM", CountryCode.VN, "123", "70000");
 //        addressRepository.save(address1);
@@ -64,6 +65,12 @@ public class LabWeek05Application implements CommandLineRunner {
 //        LocalDate dob3= LocalDate.of(2002, 11, 15);
 //        Candidate candidate3 = new Candidate(dob3, "en@gmail.com", "Nguyen em", "0901134569", address3);
 //        candidateRepository.save(candidate3);
+//
+//        //Experience
+//        LocalDate fromDate1 = LocalDate.of(2023, 1, 1);
+//        LocalDate toDate1 = LocalDate.of(2024, 1, 1);
+//        Experience experience1 = new Experience(fromDate1, toDate1, candidate1, "Quang Trung", "Intern", "none");
+//        experienceRepository.save(experience1);
 //
 //        //Skill
 //        Skill skill1 = new Skill("none", "Java", SkillType.TECHNICAL_SKILL);
@@ -161,7 +168,6 @@ public class LabWeek05Application implements CommandLineRunner {
 //        JobSkill jobSkill5 = new JobSkill(jobSkillId5, job3, skill1, "none", SkillLevel.MASTER);
 //        jobSkillRepository.save(jobSkill5);
 //
-//        //Second Run. change app.pro to update
 //        Random rnd = new Random();
 //        for (int i = 1; i <= 100; i++) {
 //            Address add = new Address();
@@ -179,6 +185,15 @@ public class LabWeek05Application implements CommandLineRunner {
 //            can.setFullName("Name #" + i);
 //            can.setPhone(rnd.nextLong(1111111111L, 9999999999L) + "");
 //            candidateRepository.save(can);
+//
+//            Experience exp = new Experience();
+//            exp.setCandidate(can);
+//            exp.setCompanyName("Company " + i);
+//            exp.setFromDate(LocalDate.of(rnd.nextInt(2000, 2023), rnd.nextInt(1, 13), rnd.nextInt(1, 29)));
+//            exp.setToDate(LocalDate.of(rnd.nextInt(2000, 2023), rnd.nextInt(1, 13), rnd.nextInt(1, 29)));
+//            exp.setRole("Role " + i);
+//            exp.setWorkDescription("Work description " + i);
+//            experienceRepository.save(exp);
 //
 //            Company com = new Company();
 //            com.setAddress(add);

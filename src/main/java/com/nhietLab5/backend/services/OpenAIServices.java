@@ -22,22 +22,18 @@ public class OpenAIServices {
 
     public String getResponse(String prompt) {
         try {
-            // Tạo request body JSON
             JSONObject requestBody = new JSONObject();
             requestBody.put("model", "gpt-3.5-turbo");
             requestBody.put("prompt", prompt);
             requestBody.put("temperature", 0.7);
             requestBody.put("max_tokens", 100);
 
-            // Tạo header cho yêu cầu
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setBearerAuth(API_KEY);
 
-            // Đặt body và headers vào yêu cầu
             HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
 
-            // Gửi yêu cầu và nhận phản hồi
             RestTemplate restTemplate = new RestTemplate();
             return restTemplate.postForObject(API_URL, entity, String.class);
         } catch (Exception e) {
