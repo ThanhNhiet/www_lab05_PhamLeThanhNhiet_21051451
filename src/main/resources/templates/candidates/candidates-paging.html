@@ -64,6 +64,9 @@
         <td th:text="${candidate.address}"></td>
         <td th:text="${candidate.phone}"></td>
         <td th:text="${candidate.email}"></td>
+        <td>
+            <a th:href="@{/candidates/detail(canID=${candidate.id})}">Detail</a>
+        </td>
     </tr>
     </tbody>
 </table>

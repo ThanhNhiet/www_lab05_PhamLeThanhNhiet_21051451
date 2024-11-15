@@ -1,9 +1,13 @@
 package com.nhietLab5.frontend.controllers;
 
 import com.nhietLab5.backend.models.Candidate;
+import com.nhietLab5.backend.models.CandidateSkill;
 import com.nhietLab5.backend.models.Company;
+import com.nhietLab5.backend.models.Experience;
 import com.nhietLab5.backend.repositories.CandidateRepository;
+import com.nhietLab5.backend.repositories.CandidateSkillRepository;
 import com.nhietLab5.backend.repositories.CompanyRepository;
+import com.nhietLab5.backend.repositories.ExperienceRepository;
 import com.nhietLab5.backend.services.CandidateServices;
 import com.nhietLab5.backend.services.EmailSenderServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,10 @@ public class CandidateController {
     private CandidateServices candidateServices;
     @Autowired
     private CompanyRepository companyRepository;
+    @Autowired
+    private CandidateSkillRepository candidateSkillRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
     @Autowired
     private EmailSenderServices emailSenderServices;
 
@@ -100,5 +108,20 @@ public class CandidateController {
 
 
         return "redirect:/candidates/list?companyId=" + company.getId();
+    }
+
+    @GetMapping("/detail")
+    public String showCandidateDetail(Model model,
+                                      @RequestParam("canID") Long canID) {
+        Candidate candidate = candidateRepository.findById(canID).orElse(null);
+        model.addAttribute("candidate", candidate);
+
+        Experience experience = experienceRepository.findByCandidate(candidate);
+        model.addAttribute("experience", experience);
+
+        List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCan(candidate);
+        model.addAttribute("candidateSkills", candidateSkills);
+
+        return "candidates/candidateDetail";
     }
 }
