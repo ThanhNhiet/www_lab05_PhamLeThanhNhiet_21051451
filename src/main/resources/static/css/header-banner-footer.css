@@ -1,0 +1,96 @@
+*{
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+}
+.outer{
+    width: 100%;
+    height: auto;
+    border: 1px solid black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+div.inline {
+    color: black;
+    float: left;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+div.inline a.active {
+    background-color: #FBD603;
+    border: 1px solid darkred;
+}
+
+header{
+    background-color: rgb(145, 58, 8);
+    color: rgb(135, 204, 47);
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 1px solid black;
+}
+header > h1{
+    text-align: center;
+}
+
+Menu{
+    padding: 10px;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+Menu > ul{
+    margin: 0px;
+    display: inline-flex;
+}
+Menu > ul > li{
+    list-style-type: none;
+    padding-right: 20px;
+}
+Menu > ul > li > a{
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(160, 66, 12);
+    padding: 13px 20px;
+}
+Menu > ul > li > a:hover{
+    color:white;
+    background-color: black;
+}
+
+.banner{
+    padding: 50px;
+    background-image: url(../img/menu-bottom-banner.png);
+    background-repeat: round;
+    background-position-y: top;
+}
+
+.content{
+    /*font-family: "Times New Roman", Times, serif;*/
+    font-family: Arial, sans-serif;
+}
+
+.content > table > thead > tr > th{
+    color: rgb(145, 58, 8);
+    font-weight: bold;
+}
+
+/* footer */
+footer {
+    clear: both;
+    margin-top: 20px;
+    background-color: rgb(145, 58, 8);
+    color: rgb(135, 204, 47);
+    font-weight: bold;
+    padding: 10px;
+}
+.footer-content {
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.footer-img img {
+    width: 50vw;
+    height: 180px;
+}

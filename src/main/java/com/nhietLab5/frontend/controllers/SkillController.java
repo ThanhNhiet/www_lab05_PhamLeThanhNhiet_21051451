@@ -1,10 +1,8 @@
 package com.nhietLab5.frontend.controllers;
 
-import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.models.Job;
 import com.nhietLab5.backend.models.JobSkill;
 import com.nhietLab5.backend.models.Skill;
-import com.nhietLab5.backend.repositories.CompanyRepository;
 import com.nhietLab5.backend.repositories.JobRepository;
 import com.nhietLab5.backend.repositories.JobSkillRepository;
 import com.nhietLab5.backend.repositories.SkillRepository;

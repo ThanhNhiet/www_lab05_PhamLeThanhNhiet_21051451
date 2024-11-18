@@ -1,10 +1,7 @@
 package com.nhietLab5.frontend.controllers;
 
-import com.nhietLab5.backend.enums.SkillLevel;
 import com.nhietLab5.backend.models.Job;
 import com.nhietLab5.backend.models.JobSkill;
-import com.nhietLab5.backend.models.JobSkillId;
-import com.nhietLab5.backend.models.Skill;
 import com.nhietLab5.backend.repositories.*;
 import com.nhietLab5.backend.services.JobServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +122,14 @@ public class JobController {
     @GetMapping("/jobDetail")
     public String showJobDetail(Model model,
                                 @RequestParam("jobId") String id,
-                                @RequestParam("companyId") String companyId) {
+                                @RequestParam("companyId") String companyId,
+                                @RequestParam("candidateId") Optional<Long> candidateId) {
+        if (candidateId.isPresent()) {
+            model.addAttribute("candidateId", candidateId.get());
+        } else if (candidateId.isEmpty()) {
+            model.addAttribute("candidateId", null);
+        }
+
         Job job = jobRepository.findById(Long.parseLong(id)).orElse(null);
         List<JobSkill> jobSkill = jobSkillRepository.findAllByJobId(Long.parseLong(id));
         job.setJobSkills(jobSkill);

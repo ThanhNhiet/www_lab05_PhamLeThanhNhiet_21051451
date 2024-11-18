@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    div.inline {
+        color: black;
+        float: left;
+        padding: 5px 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    div.inline a.active {
+        background-color: #FBD603;
+        border:1px solid darkred;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div style="position: absolute; right: 0px; padding: 5px">
+    <button>
+        <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
+    </button>
+</div>
+
+<h1 class="text-center"><span th:text="${candidate.fullName}"></span>'s detail</h1>
+
+<div>
+    <h3>Candidate Infomation</h3>
+    <h5>Date of birth: <span th:text="${candidate.dob}"></span></h5>
+    <h5>Email: <span th:text="${candidate.email}"></span></h5>
+    <h5>Phone: <span th:text="${candidate.phone}"></span></h5>
+    <h5>Address: <span th:text="${candidate.address}"></span></h5><br>
+    <h3>Experience</h3>
+    <h5>Company: <span th:text="${experience.companyName}"></span></h5>
+    <h5>From: <span th:text="${experience.fromDate}"></span></h5>
+    <h5>To: <span th:text="${experience.toDate}"></span></h5>
+    <h5>Role: <span th:text="${experience.role}"></span></h5>
+    <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Skill name</th>
+            <th>Level</th>
+            <th>More info</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="candidateSkill, iStat : ${candidateSkills}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${candidateSkill.skill.skillName}"></td>
+        <td th:text="${candidateSkill.skillLevel}"></td>
+        <td th:text="${candidateSkill.moreInfos}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
