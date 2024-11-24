@@ -83,17 +83,22 @@
 <body>
 <h2>Login</h2>
 
-<form method="get" action="indexController">
+<!--<form method="get" action="indexController">-->
+<!--    <input type="hidden" name="action" value="login">-->
+<!--    User ID: <input name="id" type="text"><br>-->
+<!--    Role:-->
+<!--    <input type="radio" name="role" value="candidate">Candidate-->
+<!--    <input type="radio" name="role" value="company">Company-->
+<!--    <input type="submit" value="Login">-->
+<!--</form>-->
+<form method="post" action="indexController">
     <input type="hidden" name="action" value="login">
-    User ID: <input name="id" type="text"><br>
-    Role:
-    <input type="radio" name="role" value="candidate">Candidate
-    <input type="radio" name="role" value="company">Company
+    User email: <input name="username" type="text"><br>
+    Password: <input name="password" type="password"><br>
     <input type="submit" value="Login">
 </form>
 
-<p id="error-message" class="error" style="display: none;">
-    Wrong username or password or no access account</p>
+<!--<p class="error" th:if="${error != null}" th:text="${error}"></p>-->
+<p class="error" th:if="${param.error}" style="color: red;">Invalid email or password.</p>
 </body>
-
 </html>

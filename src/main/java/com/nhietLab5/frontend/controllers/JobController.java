@@ -51,7 +51,7 @@ public class JobController {
 
         Long id = candidateId.orElse(null);
         model.addAttribute("candidate", candidateRepository.findById(id).orElse(null));
-        return "jobs/jobs";
+        return "candidates/jobs";
     }
 
     @GetMapping("/myPost")
@@ -60,7 +60,7 @@ public class JobController {
                                     @RequestParam("size") Optional<Integer> size,
                                     @RequestParam("id") String id) {
         Long companyID = Long.parseLong(id);
-        model.addAttribute("companyId", id);
+        model.addAttribute("company", companyRepository.findById(companyID).orElse(null));
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Job> jobPage = jobServices.findByCompanyID(
@@ -73,7 +73,7 @@ public class JobController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-        return "jobs/companyJobs";
+        return "companies/companyJobs";
     }
 
     @PostMapping("/add")
@@ -123,19 +123,18 @@ public class JobController {
     public String showJobDetail(Model model,
                                 @RequestParam("jobId") String id,
                                 @RequestParam("companyId") String companyId,
-                                @RequestParam("candidateId") Optional<Long> candidateId) {
-        if (candidateId.isPresent()) {
-            model.addAttribute("candidateId", candidateId.get());
-        } else if (candidateId.isEmpty()) {
-            model.addAttribute("candidateId", null);
-        }
-
+                                @RequestParam(value="candidateId", required = false) Optional<Long> candidateId) {
         Job job = jobRepository.findById(Long.parseLong(id)).orElse(null);
+        Long candidateID = candidateId.orElse(null);
         List<JobSkill> jobSkill = jobSkillRepository.findAllByJobId(Long.parseLong(id));
         job.setJobSkills(jobSkill);
         model.addAttribute("job", job);
-        model.addAttribute("companyId", companyId);
-        return "jobs/jobDetails";
+        model.addAttribute("company", companyRepository.findById(Long.parseLong(companyId)).orElse(null));
+        if (candidateId.isPresent()) {
+            model.addAttribute("candidate", candidateRepository.findById(candidateID).orElse(null));
+            return "candidates/jobDetails";
+        }
+        return "companies/jobDetails";
     }
 
     @GetMapping("/suitable")
@@ -157,6 +156,43 @@ public class JobController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("candidate", candidateRepository.findById(id).orElse(null));
-        return "jobs/jobsSuitable";
+        return "candidates/jobsSuitable";
+    }
+
+    @GetMapping("/search")
+    public String searchJob(Model model,
+                            @RequestParam("page") Optional<Integer> page,
+                            @RequestParam("size") Optional<Integer> size,
+                            @RequestParam("candidateId") String candidateId,
+                            @RequestParam("condition") String condition,
+                            @RequestParam("inputValue") String input) {
+        Long id = Long.parseLong(candidateId);
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        if(condition.equals("jobName")){
+            Page<Job> jobPage = jobServices.findJobsByJobName(
+                    currentPage - 1, pageSize, "id", "asc", input);
+            model.addAttribute("jobPage", jobPage);
+            int totalPages = jobPage.getTotalPages();
+            if (totalPages > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
+        } else if(condition.equals("company")){
+            Page<Job> jobPage = jobServices.findJobsByCompany_CompName(
+                    currentPage - 1, pageSize, "id", "asc", input);
+            model.addAttribute("jobPage", jobPage);
+            int totalPages = jobPage.getTotalPages();
+            if (totalPages > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
+        }
+        model.addAttribute("candidate", candidateRepository.findById(id).orElse(null));
+        return "candidates/jobs";
     }
 }

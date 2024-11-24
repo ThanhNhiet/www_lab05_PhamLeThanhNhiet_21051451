@@ -59,7 +59,7 @@ public class CandidateController {
 
         Long id = companyId.orElse(null);
         model.addAttribute("company", companyRepository.findById(id).orElse(null));
-        return "candidates/candidates-paging";
+        return "companies/candidates-paging";
     }
 
     @GetMapping("/suitable")
@@ -82,7 +82,7 @@ public class CandidateController {
         }
         model.addAttribute("jobName", jobName);
         model.addAttribute("company", companyRepository.findById(companyId).orElse(null));
-        return "candidates/candidatesSuitable";
+        return "companies/candidatesSuitable";
     }
 
     @GetMapping("/sendEmail")
@@ -112,7 +112,8 @@ public class CandidateController {
 
     @GetMapping("/detail")
     public String showCandidateDetail(Model model,
-                                      @RequestParam("canID") Long canID) {
+                                      @RequestParam("canID") Long canID,
+                                      @RequestParam(value = "compID", required = false) Long compID) {
         Candidate candidate = candidateRepository.findById(canID).orElse(null);
         model.addAttribute("candidate", candidate);
 
@@ -121,6 +122,11 @@ public class CandidateController {
 
         List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCan(candidate);
         model.addAttribute("candidateSkills", candidateSkills);
+
+        if(compID != null){
+            model.addAttribute("company", companyRepository.findById(compID).orElse(null));
+            return "companies/candidateDetail";
+        }
 
         return "candidates/candidateDetail";
     }

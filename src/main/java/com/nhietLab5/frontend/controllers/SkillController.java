@@ -3,6 +3,7 @@ package com.nhietLab5.frontend.controllers;
 import com.nhietLab5.backend.models.Job;
 import com.nhietLab5.backend.models.JobSkill;
 import com.nhietLab5.backend.models.Skill;
+import com.nhietLab5.backend.repositories.CandidateRepository;
 import com.nhietLab5.backend.repositories.JobRepository;
 import com.nhietLab5.backend.repositories.JobSkillRepository;
 import com.nhietLab5.backend.repositories.SkillRepository;
@@ -26,6 +27,8 @@ public class SkillController {
     private JobRepository jobRepository;
     @Autowired
     private JobSkillRepository jobSkillRepository;
+    @Autowired
+    private CandidateRepository candidateRepository;
 
     @GetMapping("/list")
     @ResponseBody
@@ -41,11 +44,11 @@ public class SkillController {
                                    @RequestParam("candidateId") Optional<Long> candidateId,
                                    @RequestParam("jobName") Optional<String> jobName,
                                    @RequestParam("companyName") Optional<String> companyName) {
-        Long canId = candidateId.orElse(1L);
+        Long canId = candidateId.orElse(null);
         String sJobName = jobName.orElse(null);
         String sCompanyName = companyName.orElse(null);
 
-        model.addAttribute("candidateId", canId);
+        model.addAttribute("candidate", candidateRepository.findById(canId).orElse(null));
 
         List<Skill> skills = skillRepository.findMissingSkillsForCandidateByJobAndCompany(sJobName, sCompanyName, canId);
         model.addAttribute("skillsMissing", skills);
@@ -62,6 +65,6 @@ public class SkillController {
         }
         model.addAttribute("skillJobSkillMapById", skillJobSkillMapById);
 
-        return "skills/skillsMissing";
+        return "candidates/skillsMissing";
     }
 }

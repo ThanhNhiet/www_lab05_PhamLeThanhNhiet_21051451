@@ -26,4 +26,10 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "                             WHERE jsInner.job.id = j.id)")
 //    List<Job>findSuitableJobsForCandidate(@Param("candidateId") Long candidateId);
     Page<Job>findSuitableJobsForCandidate(@Param("candidateId") Long candidateId, Pageable pageable);
+
+    @Query("SELECT j FROM Job j WHERE j.jobName LIKE %:jobName%")
+    Page<Job> findJobsByJobNameLike(@Param("jobName") String jobName, Pageable pageable);
+
+    @Query("SELECT j FROM Job j WHERE j.company.compName LIKE %:compName%")
+    Page<Job> findJobsByCompany_CompNameLike(@Param("compName") String compName, Pageable pageable);
 }

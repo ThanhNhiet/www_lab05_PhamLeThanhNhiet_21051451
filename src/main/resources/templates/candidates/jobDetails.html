@@ -1,40 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    div.inline {
-        color: black;
-        float: left;
-        padding: 5px 5px;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    div.inline a.active {
-        background-color: #FBD603;
-        border: 1px solid darkred;
-    }
-
-    #skillSuggestions {
-        display: none;
-        border: 1px solid #ddd;
-        max-height: 150px;
-        overflow-y: auto;
-        background-color: #fff;
-        position: absolute;
-        width: 80%;
-        z-index: 1000;
-    }
-
-    #skillSuggestions div {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    #skillSuggestions div:hover {
-        background-color: #f0f0f0;
-    }
-</style>
 <head>
+    <meta charset="UTF-8">
+    <title>List job</title>
+    <meta charset="UTF-8">
+    <title>Job Detail</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -44,206 +14,102 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <title>Job Detail</title>
+    <link rel="stylesheet" href="/css/header-banner-footer.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Job Detail</h1>
-<div>
-    <p>
-        Job id: <span th:text="${job.id}"></span><br>
-        Job name: <span th:text="${job.jobName}"></span><br>
-        Job description: <span th:text="${job.jobDesc}"></span><br>
-        Company name: <span th:text="${job.company.compName}"></span><br>
-    </p>
-</div>
-<div>
-    <a th:href="@{/jobs/myPost(id=${job.company.id})}">My recruitment post</a>
-</div><br>
 
-<div style="position: absolute; right: 0px; padding: 5px">
-    <button>
-        <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
-    </button>
-</div>
+<div class="outer">
+    <header>
+        <h1>Jobs Connection 247</h1>
+        <div style="position: absolute; top:0px; right: 0px; padding: 5px">
+            Hello <span th:text="${candidate.fullName}"></span>
+            <button>
+                <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
+            </button>
+        </div>
+    </header>
 
-<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add new jobskill</a>
+    <Menu>
+        <ul>
+            <li><a th:href="@{/jobs/list(candidateId=${candidate.id})}">List jobs</a></li>
+            <li><a th:href="@{/candidates/detail(canID=${candidate.id})}">My Detail Info</a></li>
+            <li><a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">suitable jobs for me</a></li>
+            <li><a href="#">Suggest skill to learn?</a></li>
+        </ul>
+    </Menu>
 
-<div th:if="${error}" class="alert alert-danger" role="alert">
-    <span th:text="${error}"></span>
-</div>
+    <div class="banner">
 
-<!-- Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Add new jobskill</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <div class="content">
+        <article class="left">
+            <h1 class="text-center">LIST JOB-SKILL</h1>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Job Name</th>
+                    <th>Skill Name</th>
+                    <th>More Infos</th>
+                    <th>Skill Level</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, iStat : ${job.jobSkills}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td th:text="${item.job.jobName}"></td>
+                    <td th:text="${item.skill.skillName}"></td>
+                    <td th:text="${item.moreInfos}"></td>
+                    <td th:text="${item.skillLevel}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+
+        <article class="right">
+            <div class="firstForm">
+                <h1>Job Detail</h1>
+                <div>
+                    <p>
+                        Job id: <span th:text="${job.id}"></span><br>
+                        Job name: <span th:text="${job.jobName}"></span><br>
+                        Job description: <span th:text="${job.jobDesc}"></span><br>
+                        Company name: <span th:text="${job.company.compName}"></span><br>
+                    </p>
+                </div>
             </div>
-            <div class="modal-body">
-                <form method="post" action="jobDetail/add">
-                    <input type="hidden" name="companyId" th:value="${job.company.id}">
-                    <input type="hidden" name="jobId" th:value="${job.id}">
-                    <div class="mb-3">
-                        <label for="skillInput" class="form-label">Skill:</label>
-                        <input type="text" class="form-control" id="skillInput" name="skillName" autocomplete="off">
-                    </div>
-                    <div id="skillSuggestions"></div><!--show skills suggestions-->
+            <div class="secondForm">
 
-                    <div class="mb-3">
-                        <label for="moreInfo" class="form-label">More info:</label>
-                        <input type="text" class="form-control" id="moreInfo" name="moreInfo">
-                    </div>
-                    <div class="mb-3">
-                        <label for="levelSelect" class="form-label">Skill level:</label>
-                        <select class="form-control" id="levelSelect" name="skillLevel">
-                            <option value="MASTER">MASTER</option>
-                            <option value="BEGINNER">BEGINNER</option>
-                            <option value="ADVANCED">ADVANCED</option>
-                            <option value="PROFESSIONAL">PROFESSIONAL</option>
-                            <option value="INTERMEDIATE">INTERMEDIATE</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+            </div>
+        </article>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="info">
+                <h5><strong>Jobs Connection 247</strong></h5>
+                <p>Email: nhiethiz@gmail.com</p>
+                <p>Phone: 123-456-789</p>
+                <p>
+                    Address: 12 Nguyễn Văn Bảo, Q. Gò Vấp, Hồ Chí Minh
+                </p>
+            </div>
+            <div class="footer-img">
+                <!-- <img src="/image/map.png" alt="" /> -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3918.858589555858!2d106.686772!3d10.822132!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175296a4ce691f9%3A0x2d96eb3ef10ac151!2zMTIgTmd1eeG7hW4gVsSDbiBC4bqjbw!5e0!3m2!1sen!2sus!4v1723197234169!5m2!1sen!2sus"
+                        width="570" height="200"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
         </div>
-    </div>
+    </footer>
+
 </div>
 
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myEditModalLabel">Edit Recruitment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="jobDetail/edit">
-                    <input type="hidden" name="companyId" th:value="${job.company.id}">
-                    <input type="hidden" id="jobIdInput" name="jobId">
-                    <input type="hidden" id="skillIdInput" name="skillId">
-                    <div class="mb-3">
-                        <label for="editmoreInfo" class="form-label">More info:</label>
-                        <input type="text" class="form-control" id="editmoreInfo" name="moreInfo">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editlevelSelect" class="form-label">Skill level:</label>
-                        <select class="form-control" id="editlevelSelect" name="skillLevel">
-                            <option value="MASTER">MASTER</option>
-                            <option value="BEGINNER">BEGINNER</option>
-                            <option value="ADVANCED">ADVANCED</option>
-                            <option value="PROFESSIONAL">PROFESSIONAL</option>
-                            <option value="INTERMEDIATE">INTERMEDIATE</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Save change</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<h1 class="text-center">LIST JOB-SKILL</h1>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>Job Name</th>
-        <th>Skill Name</th>
-        <th>More Infos</th>
-        <th>Skill Level</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item, iStat : ${job.jobSkills}"
-        th:style="${iStat.odd}? 'font-weight: bold;'"
-        th:alt-title="${iStat.even}? 'even' : 'odd'">
-        <td th:text="${item.job.jobName}"></td>
-        <td th:text="${item.skill.skillName}"></td>
-        <td th:text="${item.moreInfos}"></td>
-        <td th:text="${item.skillLevel}"></td>
-        <td>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"
-               th:data-job-id="${item.job.id}"
-                th:data-skill-id="${item.skill.id}">Edit
-            </a>
-        </td>
-        <td>
-            <a th:href="@{/jobs/jobDetail/delete(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
-                >Delete
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const editLinks = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#editModal"]');
-        editLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                const jobId = link.getAttribute("data-job-id");
-                document.getElementById("jobIdInput").value = jobId;
-                const skillId = link.getAttribute("data-skill-id");
-                document.getElementById("skillIdInput").value = skillId;
-            });
-        });
-    });
-
-    // Fetch skills
-    async function fetchSkills() {
-        const response = await fetch('/skills/list');
-        return await response.json();
-    }
-
-    async function autocompleteSkills(event) {
-        const query = event.target.value.toLowerCase();
-        const skills = await fetchSkills();
-        const filteredSkills = skills.filter(skill => skill.toLowerCase().includes(query));
-
-        const suggestionsBox = document.getElementById('skillSuggestions');
-        suggestionsBox.innerHTML = '';
-
-        // Show suggestions dropdown
-        filteredSkills.forEach(skill => {
-            const suggestionItem = document.createElement('div');
-            suggestionItem.textContent = skill;
-            suggestionItem.classList.add('suggestion-item');
-            suggestionItem.style.cursor = 'pointer';
-
-            suggestionItem.onclick = () => {
-                document.getElementById('skillInput').value = skill;
-                suggestionsBox.style.display = 'none';
-            };
-
-            suggestionsBox.appendChild(suggestionItem);
-        });
-
-        suggestionsBox.style.display = filteredSkills.length > 0 ? 'block' : 'none';
-    }
-
-    //hide
-    document.addEventListener('click', function (event) {
-        const skillInput = document.getElementById('skillInput');
-        const suggestionsBox = document.getElementById('skillSuggestions');
-
-        if (!suggestionsBox.contains(event.target) && event.target !== skillInput) {
-            suggestionsBox.style.display = 'none';
-        }
-    });
-
-    document.getElementById('skillInput').addEventListener('input', autocompleteSkills);
-
-    document.getElementById('skillInput').addEventListener('click', function () {
-        const suggestionsBox = document.getElementById('skillSuggestions');
-        if (suggestionsBox.children.length > 0) {
-            suggestionsBox.style.display = 'block';
-        }
-    });
-</script>
 </html>

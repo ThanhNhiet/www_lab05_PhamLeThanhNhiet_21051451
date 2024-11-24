@@ -31,4 +31,16 @@ public class JobServices {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         return jobRepository.findSuitableJobsForCandidate(candidateId, pageable);
     }
+
+    public Page<Job> findJobsByJobName(int pageNo, int pageSize, String sortBy, String sortDirection, String jobName) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return jobRepository.findJobsByJobNameLike(jobName, pageable);
+    }
+
+    public Page<Job> findJobsByCompany_CompName(int pageNo, int pageSize, String sortBy, String sortDirection, String compName) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return jobRepository.findJobsByCompany_CompNameLike(compName, pageable);
+    }
 }

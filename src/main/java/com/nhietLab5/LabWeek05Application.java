@@ -6,6 +6,7 @@ import com.nhietLab5.backend.enums.SkillType;
 import com.nhietLab5.backend.models.*;
 import com.nhietLab5.backend.repositories.*;
 import com.nhietLab5.backend.services.SkillsRecommendServices;
+import com.nhietLab5.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -42,6 +43,8 @@ public class LabWeek05Application implements CommandLineRunner {
     private SkillsRecommendServices skillsRecommendServices;
     @Autowired
     private ExperienceRepository experienceRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -56,15 +59,18 @@ public class LabWeek05Application implements CommandLineRunner {
 //        //Candidate
 //        LocalDate dob1= LocalDate.of(2003, 11, 15);
 //        Candidate candidate1 = new Candidate(dob1, "nhietdizz@gmail.com", "Pham Le Thanh Nhiet", "0901234567", address1);
-//        candidateRepository.save(candidate1);
+////        candidateRepository.save(candidate1);
+//        userService.registerCandidate(candidate1, "nhietdizz@gmail.com", "123456");
 //
 //        LocalDate dob2= LocalDate.of(2000, 11, 15);
 //        Candidate candidate2 = new Candidate(dob2, "ahaha@gmail.com", "Tran Ha", "0901134567", address2);
-//        candidateRepository.save(candidate2);
+////        candidateRepository.save(candidate2);
+//        userService.registerCandidate(candidate2, "ahaha@gmail.com", "111111");
 //
 //        LocalDate dob3= LocalDate.of(2002, 11, 15);
 //        Candidate candidate3 = new Candidate(dob3, "en@gmail.com", "Nguyen em", "0901134569", address3);
-//        candidateRepository.save(candidate3);
+////        candidateRepository.save(candidate3);
+//        userService.registerCandidate(candidate3, "en@gmail.com", "222222");
 //
 //        //Experience
 //        LocalDate fromDate1 = LocalDate.of(2023, 1, 1);
@@ -141,7 +147,8 @@ public class LabWeek05Application implements CommandLineRunner {
 //        com1.setEmail("nhiethiz@gmail.com");
 //        com1.setPhone("0901234567");
 //        com1.setWebUrl("http://GreenT.com.vn");
-//        companyRepository.save(com1);
+////        companyRepository.save(com1);
+//        userService.registerCompany(com1, "nhiethiz@gmail.com", "123123");
 //
 //        //job
 //        Job job1 = new Job("none", "Java dev", companyRepository.findById(1L).get());
@@ -273,7 +280,7 @@ public class LabWeek05Application implements CommandLineRunner {
 //            jobSkillRepository.save(jobSkill);
 //        }
 
-         //Test query
+//         //Test query
 //        List<Candidate> candidates = candidateRepository.findSuitableCandidatesForJob("Job name 1", 1L);
 //        for (Candidate candidate : candidates) {
 //            System.out.println(candidate.getFullName());
@@ -287,10 +294,5 @@ public class LabWeek05Application implements CommandLineRunner {
 //            System.out.println(skill.getSkillName());
 //        }
 
-        //Test AI service -> fail
-//        Map<Long, String> recommendedSkills = skillsRecommendServices.recommendSkillsForCandidate(1L, "BA", "Green Tech");
-//        for (Map.Entry<Long, String> entry : recommendedSkills.entrySet()) {
-//            System.out.println("Skill ID: " + entry.getKey() + " - Reason: " + entry.getValue());
-//        }
     }
 }

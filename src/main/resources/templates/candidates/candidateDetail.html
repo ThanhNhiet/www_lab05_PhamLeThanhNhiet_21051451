@@ -1,21 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    div.inline {
-        color: black;
-        float: left;
-        padding: 5px 5px;
-        text-decoration: none;
-        display: inline-block;
-    }
-    div.inline a.active {
-        background-color: #FBD603;
-        border:1px solid darkred;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>List job</title>
+    <meta charset="UTF-8">
+    <title>My detail info</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -25,48 +14,106 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/header-banner-footer.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div style="position: absolute; right: 0px; padding: 5px">
-    <button>
-        <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
-    </button>
+
+<div class="outer">
+    <header>
+        <h1>Jobs Connection 247</h1>
+        <div style="position: absolute; top:0px; right: 0px; padding: 5px">
+            Hello <span th:text="${candidate.fullName}"></span>
+            <button>
+                <a style="text-decoration: none; color: inherit;" href="/logout">Logout</a>
+            </button>
+        </div>
+    </header>
+
+    <Menu>
+        <ul>
+            <li><a th:href="@{/jobs/list(candidateId=${candidate.id})}">List jobs</a></li>
+            <li><a th:href="@{/candidates/detail(canID=${candidate.id})}">My Detail Info</a></li>
+            <li><a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">suitable jobs for me</a></li>
+            <li><a href="#">Suggest skill to learn?</a></li>
+        </ul>
+    </Menu>
+
+    <div class="banner">
+
+    </div>
+
+    <div class="content">
+        <article class="left">
+            <h1 class="text-center"><span th:text="${candidate.fullName}"></span>'s detail</h1>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Skill name</th>
+                    <th>Level</th>
+                    <th>More info</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="candidateSkill, iStat : ${candidateSkills}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td th:text="${candidateSkill.skill.skillName}"></td>
+                    <td th:text="${candidateSkill.skillLevel}"></td>
+                    <td th:text="${candidateSkill.moreInfos}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+
+        <article class="right">
+            <div class="firstForm">
+                <h3>Candidate Infomation</h3>
+                <h5>Date of birth: <span th:text="${candidate.dob}"></span></h5>
+                <h5>Email: <span th:text="${candidate.email}"></span></h5>
+                <h5>Phone: <span th:text="${candidate.phone}"></span></h5>
+                <h5>Address: <span th:text="${candidate.address}"></span></h5><br>
+            </div>
+            <div class="secondForm">
+                <h3>Experience</h3>
+                <div th:if="${experience != null}">
+                    <h5>Company: <span th:text="${experience.companyName}"></span></h5>
+                    <h5>From: <span th:text="${experience.fromDate}"></span></h5>
+                    <h5>To: <span th:text="${experience.toDate}"></span></h5>
+                    <h5>Role: <span th:text="${experience.role}"></span></h5>
+                    <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+                </div>
+                <div th:if="${experience == null}">
+                    <p>No experience available for this candidate.</p>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="info">
+                <h5><strong>Jobs Connection 247</strong></h5>
+                <p>Email: nhiethiz@gmail.com</p>
+                <p>Phone: 123-456-789</p>
+                <p>
+                    Address: 12 Nguyễn Văn Bảo, Q. Gò Vấp, Hồ Chí Minh
+                </p>
+            </div>
+            <div class="footer-img">
+                <!-- <img src="/image/map.png" alt="" /> -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3918.858589555858!2d106.686772!3d10.822132!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175296a4ce691f9%3A0x2d96eb3ef10ac151!2zMTIgTmd1eeG7hW4gVsSDbiBC4bqjbw!5e0!3m2!1sen!2sus!4v1723197234169!5m2!1sen!2sus"
+                        width="570" height="200"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </footer>
+
 </div>
 
-<h1 class="text-center"><span th:text="${candidate.fullName}"></span>'s detail</h1>
-
-<div>
-    <h3>Candidate Infomation</h3>
-    <h5>Date of birth: <span th:text="${candidate.dob}"></span></h5>
-    <h5>Email: <span th:text="${candidate.email}"></span></h5>
-    <h5>Phone: <span th:text="${candidate.phone}"></span></h5>
-    <h5>Address: <span th:text="${candidate.address}"></span></h5><br>
-    <h3>Experience</h3>
-    <h5>Company: <span th:text="${experience.companyName}"></span></h5>
-    <h5>From: <span th:text="${experience.fromDate}"></span></h5>
-    <h5>To: <span th:text="${experience.toDate}"></span></h5>
-    <h5>Role: <span th:text="${experience.role}"></span></h5>
-    <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
-</div>
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Skill name</th>
-            <th>Level</th>
-            <th>More info</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr th:each="candidateSkill, iStat : ${candidateSkills}"
-        th:style="${iStat.odd}? 'font-weight: bold;'"
-        th:alt-title="${iStat.even}? 'even' : 'odd'">
-        <td th:text="${candidateSkill.skill.skillName}"></td>
-        <td th:text="${candidateSkill.skillLevel}"></td>
-        <td th:text="${candidateSkill.moreInfos}"></td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>
