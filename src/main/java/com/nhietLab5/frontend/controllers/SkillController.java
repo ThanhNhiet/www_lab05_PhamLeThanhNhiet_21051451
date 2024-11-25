@@ -38,33 +38,4 @@ public class SkillController {
                 .map(Skill::getSkillName)
                 .collect(Collectors.toList());
     }
-
-    @GetMapping("/missing")
-    public String getSkillsMissing(Model model,
-                                   @RequestParam("candidateId") Optional<Long> candidateId,
-                                   @RequestParam("jobName") Optional<String> jobName,
-                                   @RequestParam("companyName") Optional<String> companyName) {
-        Long canId = candidateId.orElse(null);
-        String sJobName = jobName.orElse(null);
-        String sCompanyName = companyName.orElse(null);
-
-        model.addAttribute("candidate", candidateRepository.findById(canId).orElse(null));
-
-        List<Skill> skills = skillRepository.findMissingSkillsForCandidateByJobAndCompany(sJobName, sCompanyName, canId);
-        model.addAttribute("skillsMissing", skills);
-
-        Job job = jobRepository.findByJobNameAndCompany_CompName(sJobName, sCompanyName);
-        model.addAttribute("job", job);
-
-        Map<Long, JobSkill> skillJobSkillMapById = new HashMap<>();
-        for (Skill skill : skills) {
-            JobSkill jobSkill = jobSkillRepository.findByJobAndSkill(job, skill);
-            if (jobSkill != null) {
-                skillJobSkillMapById.put(skill.getId(), jobSkill);
-            }
-        }
-        model.addAttribute("skillJobSkillMapById", skillJobSkillMapById);
-
-        return "candidates/skillsMissing";
-    }
 }

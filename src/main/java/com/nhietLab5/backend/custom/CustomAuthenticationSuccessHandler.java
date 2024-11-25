@@ -32,9 +32,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
             // Chuyển hướng theo vai trò
             if ("CANDIDATE".equalsIgnoreCase(user.getRole())) {
-                redirectUrl = "/jobs/list?candidateId=" + user.getCandidate().getId();
+                redirectUrl = "candidate/jobList?candidateId=" + user.getCandidate().getId();
             } else if ("COMPANY".equalsIgnoreCase(user.getRole())) {
-                redirectUrl = "/candidates/list?companyId=" + user.getCompany().getId();
+                redirectUrl = "company/candidateList?companyId=" + user.getCompany().getId();
             } else {
                 redirectUrl = "/dashboard"; // Mặc định nếu không xác định được vai trò
             }

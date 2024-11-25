@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Skills Missing</title>
+    <title>Missing Skills</title>
     <meta charset="UTF-8">
     <title>Jobs</title>
     <link
@@ -32,9 +32,9 @@
 
     <Menu>
         <ul>
-            <li><a th:href="@{/jobs/list(candidateId=${candidate.id})}">List jobs</a></li>
-            <li><a th:href="@{/candidates/detail(canID=${candidate.id})}">My Detail Info</a></li>
-            <li><a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">suitable jobs for me</a></li>
+            <li><a th:href="@{/candidate/jobList(candidateId=${candidate.id})}">List jobs</a></li>
+            <li><a th:href="@{/candidate/detail(canID=${candidate.id})}">My Detail Info</a></li>
+            <li><a th:href="@{/candidate/suitableJobs(candidateId=${candidate.id})}">suitable jobs for me</a></li>
             <li><a href="#">Suggest skill to learn?</a></li>
         </ul>
     </Menu>

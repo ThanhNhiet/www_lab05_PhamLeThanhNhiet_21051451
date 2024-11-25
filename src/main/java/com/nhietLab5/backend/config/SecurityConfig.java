@@ -24,8 +24,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/jobs/**").hasRole("CANDIDATE")
-                        .requestMatchers("/candidates/**").hasRole("COMPANY")
+                        .requestMatchers("/candidate/**").hasRole("CANDIDATE")
+                        .requestMatchers("/company/**").hasRole("COMPANY")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -40,6 +40,12 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 );
+
+        // Dong session ke ca khi thoat trinh duyet
+        http.sessionManagement(session -> {
+            session.sessionFixation(sessionFixation -> sessionFixation.migrateSession()); // bao mat session
+            session.maximumSessions(1).maxSessionsPreventsLogin(false); // cho phep 1 session
+        });
 
         return http.build();
     }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>List job</title>
     <meta charset="UTF-8">
-    <title>Jobs</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,9 +31,9 @@
 
     <Menu>
         <ul>
-            <li><a th:href="@{/jobs/list(candidateId=${candidate.id})}">List jobs</a></li>
-            <li><a th:href="@{/candidates/detail(canID=${candidate.id})}">My Detail Info</a></li>
-            <li><a th:href="@{/jobs/suitable(candidateId=${candidate.id})}">suitable jobs for me</a></li>
+            <li><a th:href="@{/candidate/jobList(candidateId=${candidate.id})}">List jobs</a></li>
+            <li><a th:href="@{/candidate/detail(canID=${candidate.id})}">My Detail Info</a></li>
+            <li><a th:href="@{/candidate/suitableJobs(candidateId=${candidate.id})}">suitable jobs for me</a></li>
             <li><a href="#">Suggest skill to learn?</a></li>
         </ul>
     </Menu>
@@ -64,14 +63,14 @@
                     <td th:text="${job.company}"></td>
                     <td th:text="${job.jobDesc}"></td>
                     <td>
-                        <a th:href="@{/jobs/jobDetail(jobId=${job.id},
+                        <a th:href="@{/candidate/jobDetail(jobId=${job.id},
                                 companyId=${job.company.getId},
                                 candidateId=${candidate.id})}">
                             Detail
                         </a>
                     </td>
                     <td>
-                        <a th:href="@{/skills/missing(candidateId=${candidate.id},
+                        <a th:href="@{/candidate/missingSkills(candidateId=${candidate.id},
                                 jobName=${job.jobName}, companyName=${job.company.getCompName})}">
                             Your missing skill?
                         </a>
@@ -81,7 +80,7 @@
             </table>
             <div class="inline" th:if="${jobPage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-                <a th:href="@{/jobs/list(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
+                <a th:href="@{/candidate/jobList(size=${jobPage.size}, page=${pageNumber}, candidateId=${candidate.id})}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==jobPage.number + 1} ? active"></a>
             </div>
@@ -92,7 +91,7 @@ ${pageNumbers}">
         <article class="right">
             <div class="firstForm">
                 <h4>Search job</h4>
-                <form method="get" action="/jobs/search">
+                <form method="get" action="/candidate/searchJobs">
                     <input type="hidden" name="candidateId" th:value="${candidate.id}">
                     <select name="condition">
                         <option value="jobName">Job Name</option>
@@ -104,7 +103,7 @@ ${pageNumbers}">
             </div>
             <div class="secondForm">
                 <h4>Find missing skill</h4>
-                <form method="get" action="/skills/missing">
+                <form method="get" action="/candidate/missingSkills">
                     <input type="hidden" name="candidateId" th:value="${candidate.id}">
                     <input type="text" name="jobName" placeholder="Job Name" required><br>
                     <input type="text" name="companyName" placeholder="Company" required><br><br>
