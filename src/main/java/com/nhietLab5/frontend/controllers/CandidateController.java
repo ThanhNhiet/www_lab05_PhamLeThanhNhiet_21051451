@@ -70,25 +70,21 @@ public class CandidateController {
     @GetMapping("/jobDetail")
     public String showJobDetail(Model model,
                                 @RequestParam("jobId") String id,
-                                @RequestParam("companyId") String companyId,
-                                @RequestParam(value="candidateId", required = false) Optional<Long> candidateId) {
+                                @RequestParam("candidateId") Optional<Long> candidateId) {
         Job job = jobRepository.findById(Long.parseLong(id)).orElse(null);
         Long candidateID = candidateId.orElse(null);
         List<JobSkill> jobSkill = jobSkillRepository.findAllByJobId(Long.parseLong(id));
         job.setJobSkills(jobSkill);
         model.addAttribute("job", job);
-        model.addAttribute("company", companyRepository.findById(Long.parseLong(companyId)).orElse(null));
-        if (candidateId.isPresent()) {
-            model.addAttribute("candidate", candidateRepository.findById(candidateID).orElse(null));
-            return "candidates/jobDetails";
-        }
-        return "companies/jobDetails";
+
+        model.addAttribute("candidate", candidateRepository.findById(candidateID).orElse(null));
+        return "candidates/jobDetails";
+
     }
 
     @GetMapping("/detail")
     public String showCandidateDetail(Model model,
-                                      @RequestParam("canID") Long canID,
-                                      @RequestParam(value = "compID", required = false) Long compID) {
+                                      @RequestParam("canID") Long canID){
         Candidate candidate = candidateRepository.findById(canID).orElse(null);
         model.addAttribute("candidate", candidate);
 
@@ -97,11 +93,6 @@ public class CandidateController {
 
         List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCan(candidate);
         model.addAttribute("candidateSkills", candidateSkills);
-
-        if(compID != null){
-            model.addAttribute("company", companyRepository.findById(compID).orElse(null));
-            return "companies/candidateDetail";
-        }
 
         return "candidates/candidateDetail";
     }
@@ -138,7 +129,7 @@ public class CandidateController {
         Long id = Long.parseLong(candidateId);
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
-        if(condition.equals("jobName")){
+        if (condition.equals("jobName")) {
             Page<Job> jobPage = jobServices.findJobsByJobName(
                     currentPage - 1, pageSize, "id", "asc", input);
             model.addAttribute("jobPage", jobPage);
@@ -149,7 +140,7 @@ public class CandidateController {
                         .collect(Collectors.toList());
                 model.addAttribute("pageNumbers", pageNumbers);
             }
-        } else if(condition.equals("company")){
+        } else if (condition.equals("company")) {
             Page<Job> jobPage = jobServices.findJobsByCompany_CompName(
                     currentPage - 1, pageSize, "id", "asc", input);
             model.addAttribute("jobPage", jobPage);

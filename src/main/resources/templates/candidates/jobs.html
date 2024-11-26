@@ -64,7 +64,6 @@
                     <td th:text="${job.jobDesc}"></td>
                     <td>
                         <a th:href="@{/candidate/jobDetail(jobId=${job.id},
-                                companyId=${job.company.getId},
                                 candidateId=${candidate.id})}">
                             Detail
                         </a>
