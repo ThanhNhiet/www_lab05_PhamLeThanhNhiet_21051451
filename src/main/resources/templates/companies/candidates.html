@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>List candidates</title>
     <meta charset="UTF-8">
-    <title>Jobs</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,9 +31,8 @@
 
     <Menu>
         <ul>
-            <li><a th:href="@{/candidates/list(companyId=${company.id})}">List candidates</a></li>
-            <li><a th:href="@{/jobs/myPost(id=${company.id})}">My recruitment post</a></li>
-            <li><a href="#">My company</a></li>
+            <li><a th:href="@{/company/candidateList(companyId=${company.id})}">List candidates</a></li>
+            <li><a th:href="@{/company/myPost(id=${company.id})}">My recruitment post</a></li>
         </ul>
     </Menu>
 
@@ -65,14 +63,14 @@
                     <td th:text="${candidate.phone}"></td>
                     <td th:text="${candidate.email}"></td>
                     <td>
-                        <a th:href="@{/candidates/detail(canID=${candidate.id}, compID=${company.id})}">Detail</a>
+                        <a th:href="@{/company/candidateDetail(canID=${candidate.id}, compID=${company.id})}">Detail</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div class="inline" th:if="${candidatePage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-                <a th:href="@{/candidates/list(size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
+                <a th:href="@{/company/candidateList(size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==candidatePage.number + 1} ? active"></a>
             </div>
@@ -81,7 +79,7 @@ ${pageNumbers}">
         <article class="right">
             <div class="centerForm">
                 <h4>Find suitable candidates</h4>
-                <form method="get" action="/candidates/suitable">
+                <form method="get" action="/company/suitableCandidates">
                     <input type="hidden" name="companyId" th:value="${company.id}">
                     <input style="width: 80%" type="text" name="jobName" placeholder="job name"><br><br>
                     <button style="width: 40%" type="submit">Search</button>

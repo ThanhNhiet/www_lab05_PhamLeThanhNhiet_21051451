@@ -1,5 +1,6 @@
 package com.nhietLab5.backend.services;
 
+import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.models.Job;
 import com.nhietLab5.backend.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,11 @@ public class JobServices {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         return jobRepository.findJobsByCompany_CompNameLike(compName, pageable);
+    }
+
+    public Page<Job> findJobsByJobNameAndCompany(int pageNo, int pageSize, String sortBy, String sortDirection, String jobName, Long companyId) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return jobRepository.findJobByJobNameAndCompany(jobName, companyId, pageable);
     }
 }

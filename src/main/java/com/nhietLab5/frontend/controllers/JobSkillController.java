@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/jobs/jobDetail")
+@RequestMapping("/company/jobDetail")
 public class JobSkillController {
     @Autowired
     private JobSkillRepository jobSkillRepository;
@@ -45,9 +45,9 @@ public class JobSkillController {
             jobSkillRepository.save(jobSkill);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 
     @PostMapping("/edit")
@@ -67,9 +67,9 @@ public class JobSkillController {
             jobSkillRepository.save(jobSkill);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 
     @GetMapping("/delete")
@@ -84,8 +84,8 @@ public class JobSkillController {
             jobSkillRepository.deleteById(jobSkillId);
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+            return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
         }
-        return "redirect:/jobs/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
+        return "redirect:/company/jobDetail?jobId=" + jobId + "&companyId=" + companyId;
     }
 }

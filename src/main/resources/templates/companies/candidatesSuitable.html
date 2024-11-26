@@ -32,9 +32,8 @@
 
     <Menu>
         <ul>
-            <li><a th:href="@{/candidates/list(companyId=${company.id})}">List candidates</a></li>
-            <li><a th:href="@{/jobs/myPost(id=${company.id})}">My recruitment post</a></li>
-            <li><a href="#">My company</a></li>
+            <li><a th:href="@{/company/candidateList(companyId=${company.id})}">List candidates</a></li>
+            <li><a th:href="@{/company/myPost(id=${company.id})}">My recruitment post</a></li>
         </ul>
     </Menu>
 
@@ -43,6 +42,7 @@
     </div>
 
     <div class="content">
+        <p class="error" th:if="${error}" th:text="${error}"></p>
         <h1 class="text-center">LIST CANDIDATES SUITABLE FOR <span th:text="${jobName}"></span></h1>
         <table class="table table-hover">
             <thead>
@@ -66,10 +66,11 @@
                 <td th:text="${candidate.phone}"></td>
                 <td th:text="${candidate.email}"></td>
                 <td>
-                    <a th:href="@{/candidates/detail(canID=${candidate.id}, compID=${company.id})}">Detail</a>
+                    <a th:href="@{/company/candidateDetail(canID=${candidate.id}, compID=${company.id})}">Detail</a>
                 </td>
                 <td>
-                    <a th:href="@{/candidates/sendEmail(compEmail=${company.email}, canEmail=${candidate.email})}">send
+                    <a th:href="@{/company/sendEmail(compEmail=${company.email}, canEmail=${candidate.email},
+                                companyId=${company.id}, jobName=${jobName})}">send
                         invitation email</a>
                 </td>
             </tr>
@@ -77,7 +78,7 @@
         </table>
         <div class="inline" th:if="${candidatePage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-            <a th:href="@{/candidates/suitable(jobName=${jobName}, size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
+            <a th:href="@{/company/suitableCandidates(jobName=${jobName}, size=${candidatePage.size}, page=${pageNumber}, companyId=${company.id})}"
                th:text="${pageNumber}"
                th:class="${pageNumber==candidatePage.number + 1} ? active"></a>
         </div>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>job Detail</title>
     <meta charset="UTF-8">
-    <title>Jobs</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,9 +31,8 @@
 
     <Menu>
         <ul>
-            <li><a th:href="@{/candidates/list(companyId=${company.id})}">List candidates</a></li>
-            <li><a th:href="@{/jobs/myPost(id=${company.id})}">My recruitment post</a></li>
-            <li><a href="#">My company</a></li>
+            <li><a th:href="@{/company/candidateList(companyId=${company.id})}">List candidates</a></li>
+            <li><a th:href="@{/company/myPost(id=${company.id})}">My recruitment post</a></li>
             <li><a href="#" data-bs-toggle="modal" data-bs-target="#addModal">Add new jobskill</a></li>
         </ul>
     </Menu>
@@ -146,7 +144,7 @@
                     </a>
                 </td>
                 <td>
-                    <a th:href="@{/jobs/jobDetail/delete(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
+                    <a th:href="@{/company/jobDetail/delete(companyId=${job.company.id}, jobId=${item.job.id}, skillId=${item.skill.id})}"
                     >Delete
                     </a>
                 </td>

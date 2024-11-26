@@ -281,7 +281,7 @@ public class LabWeek05Application implements CommandLineRunner {
 //        }
 
 //         //Test query
-//        List<Candidate> candidates = candidateRepository.findSuitableCandidatesForJob("Job name 1", 1L);
+//        List<Candidate> candidates = candidateRepository.findLSuitableCandidatesForJob("BA", 1L);
 //        for (Candidate candidate : candidates) {
 //            System.out.println(candidate.getFullName());
 //        }
