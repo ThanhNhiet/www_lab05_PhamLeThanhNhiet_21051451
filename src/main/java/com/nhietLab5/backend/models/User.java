@@ -1,5 +1,6 @@
 package com.nhietLab5.backend.models;
 
+import com.nhietLab5.backend.enums.UserStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,9 @@ public class User {
 
     @Column(nullable = false)
     private String role;
+
+    @Column(nullable = false)
+    private UserStatus status;
 
     // Quan hệ 1-1 với Candidate
     @OneToOne
@@ -58,6 +62,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public Candidate getCandidate() {

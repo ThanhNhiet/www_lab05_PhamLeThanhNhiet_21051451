@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
     <!-- Optional CSS link -->
     <style type="text/css">
         body {
@@ -66,18 +65,18 @@
         }
     </style>
 
-    <script>
-        window.onload = function() {
-            // Parse URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
+<!--    <script>-->
+<!--        window.onload = function() {-->
+<!--            // Parse URL parameters-->
+<!--            const urlParams = new URLSearchParams(window.location.search);-->
+<!--            const error = urlParams.get('error');-->
 
-            // Check if there's an error parameter
-            if (error === 'true') {
-                document.getElementById('error-message').style.display = 'block';
-            }
-        };
-    </script>
+<!--            // Check if there's an error parameter-->
+<!--            if (error === 'true') {-->
+<!--                document.getElementById('error-message').style.display = 'block';-->
+<!--            }-->
+<!--        };-->
+<!--    </script>-->
 </head>
 
 <body>
@@ -91,12 +90,16 @@
 <!--    <input type="radio" name="role" value="company">Company-->
 <!--    <input type="submit" value="Login">-->
 <!--</form>-->
-<form method="post" action="indexController">
+<form method="post" action="loginController">
     <input type="hidden" name="action" value="login">
     User email: <input name="username" type="text"><br>
     Password: <input name="password" type="password"><br>
     <input type="submit" value="Login">
+    <p>Don't have account yet?</p>
+    <p><a href="/signUpCan">Sign up as candidate</a></p>
+    <p><a href="/signUpComp">Sign up as company</a></p>
 </form>
+
 
 <!--<p class="error" th:if="${error != null}" th:text="${error}"></p>-->
 <p class="error" th:if="${param.error}" style="color: red;">Invalid email or password.</p>

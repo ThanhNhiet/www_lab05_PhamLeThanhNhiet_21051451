@@ -3,6 +3,7 @@ package com.nhietLab5;
 import com.neovisionaries.i18n.CountryCode;
 import com.nhietLab5.backend.enums.SkillLevel;
 import com.nhietLab5.backend.enums.SkillType;
+import com.nhietLab5.backend.enums.UserStatus;
 import com.nhietLab5.backend.models.*;
 import com.nhietLab5.backend.repositories.*;
 import com.nhietLab5.backend.services.SkillsRecommendServices;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.Random;
 
 @SpringBootApplication
 public class LabWeek05Application implements CommandLineRunner {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(LabWeek05Application.class, args);
     }
@@ -48,6 +53,13 @@ public class LabWeek05Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//        //Admin
+//        User admin = new User();
+//        admin.setEmail("connect247@gmail.com");
+//        admin.setPassword("123456");
+//        admin.setRole("ADMIN");
+//        userService.saveAdmin(admin);
+        
 //        //Address
 //        Address address1 = new Address("lien ap 123", "HCM", CountryCode.VN, "123", "70000");
 //        addressRepository.save(address1);
@@ -293,6 +305,7 @@ public class LabWeek05Application implements CommandLineRunner {
 //        for (Skill skill : skills) {
 //            System.out.println(skill.getSkillName());
 //        }
-
+//        boolean isPasswordMatch = passwordEncoder.matches("1234567", "$2a$10$aWFut0lcbIt6tAX5y0nlgOrR4ZXbuv.3C08jJHYlNXgtNzJqS92au");
+//        System.out.println("Mật khẩu có hợp lệ không? " + isPasswordMatch);
     }
 }

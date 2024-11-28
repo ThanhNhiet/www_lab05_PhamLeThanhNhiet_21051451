@@ -23,14 +23,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/signUpCan", "/signUpComp", "/css/**",
+                                "/js/**", "/signUpCan/saveCandidate", "/signUpComp/saveCompany",
+                                "/signUpCan/sendVCode", "/signUpComp/sendVCode").permitAll()
                         .requestMatchers("/candidate/**").hasRole("CANDIDATE")
                         .requestMatchers("/company/**").hasRole("COMPANY")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/indexController")
+                        .loginProcessingUrl("/loginController")
                         .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/login?error=true")
                         .permitAll()

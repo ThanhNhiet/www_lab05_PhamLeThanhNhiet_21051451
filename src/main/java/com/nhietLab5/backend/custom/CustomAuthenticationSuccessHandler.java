@@ -1,5 +1,6 @@
 package com.nhietLab5.backend.custom;
 
+import com.nhietLab5.backend.enums.UserStatus;
 import com.nhietLab5.backend.models.User;
 import com.nhietLab5.backend.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
@@ -27,21 +28,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // Tìm thông tin User từ database
         User user = userRepository.findByEmail(email).orElse(null);
 
-        if (user != null) {
+        if (user != null && user.getStatus().equals(UserStatus.ACTIVE)) {
             String redirectUrl;
-
-            // Chuyển hướng theo vai trò
             if ("CANDIDATE".equalsIgnoreCase(user.getRole())) {
                 redirectUrl = "candidate/jobList?candidateId=" + user.getCandidate().getId();
             } else if ("COMPANY".equalsIgnoreCase(user.getRole())) {
                 redirectUrl = "company/candidateList?companyId=" + user.getCompany().getId();
             } else {
-                redirectUrl = "/dashboard"; // Mặc định nếu không xác định được vai trò
+                redirectUrl = "/dashboard";
             }
 
             response.sendRedirect(redirectUrl);
         } else {
-            // Nếu không tìm thấy User, quay lại trang login với thông báo lỗi
             response.sendRedirect("/login?error=true");
         }
     }

@@ -1,5 +1,6 @@
 package com.nhietLab5.backend.services;
 
+import com.nhietLab5.backend.enums.UserStatus;
 import com.nhietLab5.backend.models.Candidate;
 import com.nhietLab5.backend.models.Company;
 import com.nhietLab5.backend.models.User;
@@ -29,6 +30,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("CANDIDATE");
         user.setCandidate(candidate);
+        user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
     }
 
@@ -40,7 +42,13 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("COMPANY");
         user.setCompany(company);
+        user.setStatus(UserStatus.ACTIVE);
+        userRepository.save(user);
+    }
 
+    public void saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
     }
 }

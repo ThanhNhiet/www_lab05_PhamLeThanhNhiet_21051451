@@ -132,7 +132,7 @@
             </table>
             <div class="inline" th:if="${jobPage.totalPages > 0}" th:each="pageNumber :
 ${pageNumbers}">
-                <a th:href="@{/jobs/myPost(size=${jobPage.size}, page=${pageNumber}, id=${company.id})}"
+                <a th:href="@{/company/myPost(size=${jobPage.size}, page=${pageNumber}, id=${company.id})}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==jobPage.number + 1} ? active"></a>
             </div>

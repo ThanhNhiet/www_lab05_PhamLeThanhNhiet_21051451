@@ -10,15 +10,17 @@ public class EmailSenderServices {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(String from, String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-
-        javaMailSender.send(message);
-
-        System.out.println("Email sent to " + to);
+    public boolean sendEmail(String from, String to, String subject, String body) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(from);
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(body);
+            javaMailSender.send(message);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

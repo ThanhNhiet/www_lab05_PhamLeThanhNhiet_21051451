@@ -1,22 +1,12 @@
 package com.nhietLab5.frontend.controllers;
 
-import com.nhietLab5.backend.models.User;
-import com.nhietLab5.backend.repositories.CandidateRepository;
-import com.nhietLab5.backend.repositories.CompanyRepository;
 import com.nhietLab5.backend.repositories.UserRepository;
 import com.nhietLab5.frontend.models.CandidateModel;
 import com.nhietLab5.frontend.models.CompanyModel;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -31,7 +21,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String showIndex() {
-        return "index";
+        return "login";
     }
 
 //    @PostMapping("/indexController")

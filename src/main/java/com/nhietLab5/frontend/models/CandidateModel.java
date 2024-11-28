@@ -18,7 +18,7 @@ public class CandidateModel {
             modelAndView = new ModelAndView("redirect:/jobs/list?candidateId=" + id);
             return modelAndView;
         } else {
-            modelAndView = new ModelAndView("index");
+            modelAndView = new ModelAndView("login");
             modelAndView.addObject("error", "Candidate ID invalid.");
         }
         return modelAndView;

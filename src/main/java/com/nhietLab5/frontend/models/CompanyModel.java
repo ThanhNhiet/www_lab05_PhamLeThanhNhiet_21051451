@@ -18,7 +18,7 @@ public class CompanyModel {
             modelAndView = new ModelAndView("redirect:/candidates/list?companyId=" + id);
             return modelAndView;
         } else {
-            modelAndView = new ModelAndView("index");
+            modelAndView = new ModelAndView("login");
             modelAndView.addObject("error", "Company ID invalid.");
         }
         return modelAndView;

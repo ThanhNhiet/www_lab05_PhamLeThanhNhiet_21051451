@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up as candidate</title>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 8px 0 4px;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section p {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+<h2>Sign up as candidate</h2>
+
+<form method="post" action="/signUpCan/saveCandidate">
+<!--    <input type="hidden" name="action" value="signUpCan">-->
+
+    <div class="form-section">
+        <p>Information:</p>
+        <label>Full name:</label>
+        <input name="fullName" type="text" required><br>
+
+        <label>Date of birth:</label>
+        <input name="dob" type="date" required><br>
+
+        <label>Phone number:</label>
+        <input name="phone" type="text" required><br>
+
+        <label>Email:</label>
+        <input name="email" type="email" required><br>
+        <button type="button" onclick="sendVerificationCode()">Send verification code</button>
+
+        <label>verification code: </label>
+        <input name="verCode" type="text" required><br>
+
+        <label>Password:</label>
+        <input name="password" type="password" required><br>
+
+        <label>Confirm password:</label>
+        <input name="confirmPassword" type="password" required><br>
+    </div>
+
+    <div class="form-section">
+        <p>Address:</p>
+        <label>Country:</label>
+        <input name="country" type="text" value="Viet Nam" disabled><br>
+
+        <label>City:</label>
+        <input name="city" type="text" required><br>
+
+        <label>Zip code:</label>
+        <input name="zip" type="text" required><br>
+
+        <label>Street:</label>
+        <input name="address" type="text" required><br>
+
+        <label>Number:</label>
+        <input name="number" type="text" required><br>
+    </div>
+
+    <div class="form-section">
+        <p>Experience:</p>
+        <label>Company name:</label>
+        <input name="companyName" type="text" required><br>
+
+        <label>Role:</label>
+        <input name="role" type="text" required><br>
+
+        <label>Start date:</label>
+        <input name="startDate" type="date" required><br>
+
+        <label>End date:</label>
+        <input name="endDate" type="date" required><br>
+
+        <label>Description:</label>
+        <input name="description" type="text" required><br>
+    </div>
+
+    <input type="submit" value="Sign up">
+
+    <div class="form-link">
+        <p>Have an account? <a href="/login">Login</a></p>
+    </div>
+</form>
+
+<p class="error" th:if="${param.error}" style="color: red;">Invalid email or password.</p>
+
+</body>
+<script>
+    function sendVerificationCode() {
+        var email = document.querySelector('input[name="email"]').value;
+        if (email) {
+            fetch(`/signUpCan/sendVCode?canEmail=${encodeURIComponent(email)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    }
+</script>
+</html>
