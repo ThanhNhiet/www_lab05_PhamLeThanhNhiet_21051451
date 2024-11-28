@@ -198,8 +198,8 @@ public class CompanyController {
         Candidate candidate = candidateRepository.findById(canID).orElse(null);
         model.addAttribute("candidate", candidate);
 
-        Experience experience = experienceRepository.findByCandidate(candidate);
-        model.addAttribute("experience", experience);
+        List<Experience> experiences = experienceRepository.findByCandidate(candidate);
+        model.addAttribute("experiences", experiences);
 
         List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCan(candidate);
         model.addAttribute("candidateSkills", candidateSkills);
@@ -232,5 +232,37 @@ public class CompanyController {
         return "companies/companyJobs";
     }
 
+    @GetMapping("/editInfo")
+    public String editInfo(Model model,
+                           @RequestParam("id") Long companyId) {
+        model.addAttribute("company", companyRepository.findById(companyId).orElse(null));
+        return "companies/editInfo_Company";
+    }
 
+    @PostMapping("/editInfo/saveChange")
+    public String saveChange(@RequestParam("id") Long companyId,
+                             @RequestParam("compName") String compName,
+                             @RequestParam("webUrl") String webUrl,
+                             @RequestParam("phone") String phone,
+                             @RequestParam("about") String about,
+                             @RequestParam("city") String city,
+                             @RequestParam("zip") String zip,
+                             @RequestParam("street") String street,
+                             @RequestParam("number") String number) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        company.setCompName(compName);
+        company.setWebUrl(webUrl);
+        company.setPhone(phone);
+        company.setAbout(about);
+
+        Address address = company.getAddress();
+        address.setCity(city);
+        address.setZipcode(zip);
+        address.setStreet(street);
+        address.setNumber(number);
+        company.setAddress(address);
+
+        companyRepository.save(company);
+        return "redirect:/company/myPost?id=" + companyId;
+    }
 }

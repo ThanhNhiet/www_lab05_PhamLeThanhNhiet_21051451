@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit information candidate</title>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 8px 0 4px;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section p {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+<h2>Edit Candidate Information</h2>
+
+<form method="post" action="/candidate/editInfo/saveChange">
+    <input type="hidden" name="id" th:value="${candidate.id}">
+    <div class="form-section">
+        <p>Information:</p>
+        <label>Full name:</label>
+        <input name="fullName" type="text" th:value="${candidate.fullName}" required><br>
+
+        <label>Date of birth:</label>
+        <input name="dob" type="date" th:value="${candidate.dob}" required><br>
+
+        <label>Phone number:</label>
+        <input name="phone" type="text" th:value="${candidate.phone}" required><br>
+
+        <label>Email:</label>
+        <input name="email" type="email" th:value="${candidate.email}" disabled><br>
+    </div>
+
+    <div class="form-section">
+        <p>Address:</p>
+        <label>Country:</label>
+        <input name="country" type="text" th:value="${candidate.address.country}" disabled><br>
+
+        <label>City:</label>
+        <input name="city" type="text" th:value="${candidate.address.city}" required><br>
+
+        <label>Zip code:</label>
+        <input name="zip" type="text" th:value="${candidate.address.zipcode}" required><br>
+
+        <label>Street:</label>
+        <input name="street" type="text" th:value="${candidate.address.street}" required><br>
+
+        <label>Number:</label>
+        <input name="number" type="text" th:value="${candidate.address.number}" required><br>
+    </div>
+
+    <div class="form-section">
+        <p>Experience:</p>
+        <div th:each="experience, iterStat : ${experiences}">
+            <input type="hidden" name="exId" th:value="${experience.id}">
+            <label>Company name:</label>
+            <input name="companyName"
+                   type="text"
+                   th:value="${experience.companyName}"
+                   required><br>
+
+            <label>Role:</label>
+            <input name="role"
+                   type="text"
+                   th:value="${experience.role}"
+                   required><br>
+
+            <label>Start date:</label>
+            <input name="startDate"
+                   type="date"
+                   th:value="${experience.fromDate}"
+                   required><br>
+
+            <label>End date:</label>
+            <input name="endDate"
+                   type="date"
+                   th:value="${experience.toDate}"
+                   required><br>
+
+            <label>Description:</label>
+            <input name="workDescription"
+                   type="text"
+                   th:value="${experience.workDescription}"
+                   required><br>
+
+            <hr>
+        </div>
+    </div>
+
+    <input type="submit" value="Save change">
+</form>
+</body>
+<script>
+    function sendVerificationCode() {
+        var email = document.querySelector('input[name="email"]').value;
+        if (email) {
+            fetch(`/signUpCan/sendVCode?canEmail=${encodeURIComponent(email)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    }
+</script>
+</html>

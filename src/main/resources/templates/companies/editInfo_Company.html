@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Company Information</title>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 8px 0 4px;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section p {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+<h2>Edit Information</h2>
+
+<form method="post" action="/company/editInfo/saveChange">
+    <input type="hidden" name="id" th:value="${company.id}">
+    <div class="form-section">
+        <p>Information:</p>
+        <label>Company name:</label>
+        <input name="compName" type="text" th:value="${company.compName}" required><br>
+
+        <label>Web URL:</label>
+        <input name="webUrl" type="text" th:value="${company.webUrl}" required><br>
+
+        <label>Phone number:</label>
+        <input name="phone" type="text" th:value="${company.phone}" required><br>
+
+        <label>About:</label>
+        <input name="about" type="text" th:value="${company.about}" required><br>
+
+        <label>Email:</label>
+        <input name="email" type="email" th:value="${company.email}" disabled><br>
+    </div>
+
+    <div class="form-section">
+        <p>Address:</p>
+        <label>Country:</label>
+        <input name="country" type="text" th:value="${company.address.country}" disabled><br>
+
+        <label>City:</label>
+        <input name="city" type="text" th:value="${company.address.city}" required><br>
+
+        <label>Zip code:</label>
+        <input name="zip" type="text" th:value="${company.address.zipcode}" required><br>
+
+        <label>Street:</label>
+        <input name="street" type="text" th:value="${company.address.street}" required><br>
+
+        <label>Number:</label>
+        <input name="number" type="text" th:value="${company.address.number}" required><br>
+    </div>
+
+    <input type="submit" value="Save changes">
+</form>
+
+
+</body>
+<script>
+    function sendVerificationCode() {
+        var email = document.querySelector('input[name="email"]').value;
+        if (email) {
+            fetch(`/signUpComp/sendVCode?compEmail=${encodeURIComponent(email)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    }
+</script>
+</html>

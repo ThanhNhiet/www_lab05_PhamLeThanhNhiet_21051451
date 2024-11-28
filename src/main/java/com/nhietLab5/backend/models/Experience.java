@@ -22,7 +22,7 @@ public class Experience {
     @Column(name = "to_date", nullable = false)
     private LocalDate toDate;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "can_id", nullable = false)
     private Candidate candidate;
 

@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title>My detail info</title>
     <meta charset="UTF-8">
+    <style>
+        table th, table td {
+            text-align: center; /* Căn giữa nội dung trong các ô */
+        }
+
+        table th[colspan="2"] {
+            text-align: center; /* Căn giữa tiêu đề cột "Action" */
+        }
+    </style>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -35,6 +44,8 @@
             <li><a th:href="@{/candidate/detail(canID=${candidate.id})}">My Detail Info</a></li>
             <li><a th:href="@{/candidate/suitableJobs(candidateId=${candidate.id})}">suitable jobs for me</a></li>
             <li><a href="#">Suggest skill to learn?</a></li>
+            <li><a th:href="@{/candidate/editInfo(canID=${candidate.id})}">Edit my Info</a></li>
+            <li><a href="#" data-bs-toggle="modal" data-bs-target="#addSkillModal">Add new skill</a></li>
         </ul>
     </Menu>
 
@@ -43,6 +54,83 @@
     </div>
 
     <div class="content">
+
+        <div class="modal fade" id="addSkillModal" tabindex="-1" aria-labelledby="addSkillModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addSkillModalLabel">Add skill</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body
+                ">
+                        <form th:action="@{/candidate/detail/addSkill}" method="post">
+                            <input type="hidden" name="canId" th:value="${candidate.id}"/>
+                            <div class="mb-3">
+                                <label for="skillInput" class="form-label">Skill name</label>
+                                <input type="text" class="form-control" id="skillInput" name="skillInput" required>
+                                <div id="skillSuggestions"
+                                     style="display: none; background-color: white; border: 1px solid black; border-top: none;"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="levelInput" class="form-label">Level</label>
+                                <select class="form-select" name="levelInput" required>
+                                    <option value="Beginner">BEGINNER</option>
+                                    <option value="Intermediate">INTERMEDIATE</option>
+                                    <option value="Advanced">ADVANCED</option>
+                                    <option value="Master">MASTER</option>
+                                    <option value="Professional">PROFESSIONAL</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moreInfosInput" class="form-label
+                            ">More info</label>
+                                <textarea class="form-control" name="moreInfosInput"
+                                          rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add skill</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit skill</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body
+                ">
+                        <form th:action="@{/candidate/detail/editSkill}" method="post">
+                            <input type="hidden" id="canIdInput" name="canId" value=""/>
+                            <input type="hidden" id="skillIdInput" name="skillId" value=""/>
+                            <div class="mb-3">
+                                <label for="levelInput" class="form-label">Level</label>
+                                <select class="form-select" id="levelInput" name="levelInput" required>
+                                    <option value="Beginner">BEGINNER</option>
+                                    <option value="Intermediate">INTERMEDIATE</option>
+                                    <option value="Advanced">ADVANCED</option>
+                                    <option value="Master">MASTER</option>
+                                    <option value="Professional">PROFESSIONAL</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moreInfosInput" class="form-label
+                            ">More info</label>
+                                <textarea class="form-control" id="moreInfosInput" name="moreInfosInput"
+                                          rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <article class="left">
             <h1 class="text-center"><span th:text="${candidate.fullName}"></span>'s detail</h1>
             <table class="table table-hover">
@@ -51,6 +139,7 @@
                     <th>Skill name</th>
                     <th>Level</th>
                     <th>More info</th>
+                    <th colspan="2" style="text-align: center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,6 +149,17 @@
                     <td th:text="${candidateSkill.skill.skillName}"></td>
                     <td th:text="${candidateSkill.skillLevel}"></td>
                     <td th:text="${candidateSkill.moreInfos}"></td>
+
+                    <td>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                           th:data-can-id="${candidateSkill.can.id}"
+                           th:data-skill-id="${candidateSkill.skill.id}">Edit
+                        </a>
+                    </td>
+
+                    <td>
+                        <a th:href="@{/candidate/detail/deleteSkill(canID=${candidate.id}, skillID=${candidateSkill.skill.id})}">Delete</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -75,14 +175,16 @@
             </div>
             <div class="secondForm">
                 <h3>Experience</h3>
-                <div th:if="${experience != null}">
-                    <h5>Company: <span th:text="${experience.companyName}"></span></h5>
-                    <h5>From: <span th:text="${experience.fromDate}"></span></h5>
-                    <h5>To: <span th:text="${experience.toDate}"></span></h5>
-                    <h5>Role: <span th:text="${experience.role}"></span></h5>
-                    <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+                <div th:if="${experiences != null and !experiences.isEmpty()}">
+                    <div th:each="experience : ${experiences}">
+                        <h5>Company: <span th:text="${experience.companyName}"></span></h5>
+                        <h5>From: <span th:text="${experience.fromDate}"></span></h5>
+                        <h5>To: <span th:text="${experience.toDate}"></span></h5>
+                        <h5>Role: <span th:text="${experience.role}"></span></h5>
+                        <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+                    </div>
                 </div>
-                <div th:if="${experience == null}">
+                <div th:if="${experiences == null or experiences.isEmpty()}">
                     <p>No experience available for this candidate.</p>
                 </div>
             </div>
@@ -115,4 +217,68 @@
 </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const editLinks = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#editModal"]');
+        editLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                const canId = link.getAttribute("data-can-id");
+                document.getElementById("canIdInput").value = canId;
+                const skillId = link.getAttribute("data-skill-id");
+                document.getElementById("skillIdInput").value = skillId;
+            });
+        });
+    });
+
+    // Fetch skills
+    async function fetchSkills() {
+        const response = await fetch('/skills/list');
+        return await response.json();
+    }
+
+    async function autocompleteSkills(event) {
+        const query = event.target.value.toLowerCase();
+        const skills = await fetchSkills();
+        const filteredSkills = skills.filter(skill => skill.toLowerCase().includes(query));
+
+        const suggestionsBox = document.getElementById('skillSuggestions');
+        suggestionsBox.innerHTML = '';
+
+        // Show suggestions dropdown
+        filteredSkills.forEach(skill => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.textContent = skill;
+            suggestionItem.classList.add('suggestion-item');
+            suggestionItem.style.cursor = 'pointer';
+
+            suggestionItem.onclick = () => {
+                document.getElementById('skillInput').value = skill;
+                suggestionsBox.style.display = 'none';
+            };
+
+            suggestionsBox.appendChild(suggestionItem);
+        });
+
+        suggestionsBox.style.display = filteredSkills.length > 0 ? 'block' : 'none';
+    }
+
+    //hide
+    document.addEventListener('click', function (event) {
+        const skillInput = document.getElementById('skillInput');
+        const suggestionsBox = document.getElementById('skillSuggestions');
+
+        if (!suggestionsBox.contains(event.target) && event.target !== skillInput) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+
+    document.getElementById('skillInput').addEventListener('input', autocompleteSkills);
+
+    document.getElementById('skillInput').addEventListener('click', function () {
+        const suggestionsBox = document.getElementById('skillSuggestions');
+        if (suggestionsBox.children.length > 0) {
+            suggestionsBox.style.display = 'block';
+        }
+    });
+</script>
 </html>

@@ -1,22 +1,17 @@
 package com.nhietLab5.frontend.controllers;
 
+import com.nhietLab5.backend.enums.SkillLevel;
 import com.nhietLab5.backend.models.*;
 import com.nhietLab5.backend.repositories.*;
-import com.nhietLab5.backend.services.CandidateServices;
-import com.nhietLab5.backend.services.EmailSenderServices;
 import com.nhietLab5.backend.services.JobServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,15 +21,9 @@ public class CandidateController {
     @Autowired
     private CandidateRepository candidateRepository;
     @Autowired
-    private CandidateServices candidateServices;
-    @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
     private CandidateSkillRepository candidateSkillRepository;
     @Autowired
     private ExperienceRepository experienceRepository;
-    @Autowired
-    private EmailSenderServices emailSenderServices;
     @Autowired
     private JobServices jobServices;
     @Autowired
@@ -88,8 +77,8 @@ public class CandidateController {
         Candidate candidate = candidateRepository.findById(canID).orElse(null);
         model.addAttribute("candidate", candidate);
 
-        Experience experience = experienceRepository.findByCandidate(candidate);
-        model.addAttribute("experience", experience);
+        List<Experience> experiences = experienceRepository.findByCandidate(candidate);
+        model.addAttribute("experiences", experiences);
 
         List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCan(candidate);
         model.addAttribute("candidateSkills", candidateSkills);
@@ -184,4 +173,111 @@ public class CandidateController {
 
         return "candidates/skillsMissing";
     }
+
+    @GetMapping("/editInfo")
+    public String editInfo(Model model,
+                           @RequestParam("canID") Long canID){
+        Candidate candidate = candidateRepository.findById(canID).orElse(null);
+        List<Experience> experiences = experienceRepository.findByCandidate(candidate);
+
+        model.addAttribute("candidate", candidate);
+        model.addAttribute("experiences", experiences);
+
+        return "candidates/editInfo_candidate";
+    }
+
+    @PostMapping("/editInfo/saveChange")
+    public String saveCandidateUser(@RequestParam Long id,
+                                    @RequestParam String fullName,
+                                    @RequestParam String dob,
+                                    @RequestParam String phone,
+                                    @RequestParam String city,
+                                    @RequestParam String zip,
+                                    @RequestParam String street,
+                                    @RequestParam String number,
+                                    @RequestParam String exId,
+                                    @RequestParam String companyName,
+                                    @RequestParam String role,
+                                    @RequestParam String startDate,
+                                    @RequestParam String endDate,
+                                    @RequestParam String workDescription) {
+
+        Candidate candidate = candidateRepository.findById(id).orElse(null);
+
+        LocalDate birthDate = LocalDate.parse(dob);
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        candidate.setFullName(fullName);
+        candidate.setDob(birthDate);
+        candidate.setPhone(phone);
+        candidate.getAddress().setCity(city);
+        candidate.getAddress().setZipcode(zip);
+        candidate.getAddress().setStreet(street);
+        candidate.getAddress().setNumber(number);
+        candidateRepository.save(candidate);
+
+        Experience experience = experienceRepository.findById(Long.parseLong(exId)).orElse(null);
+        experience.setCompanyName(companyName);
+        experience.setRole(role);
+        experience.setFromDate(start);
+        experience.setToDate(end);
+        experience.setWorkDescription(workDescription);
+        experienceRepository.save(experience);
+
+        return "redirect:/candidate/detail?canID=" + id;
+    }
+
+    @PostMapping("detail/addSkill")
+    public String addSkill(@RequestParam("canId") Long canID,
+                           @RequestParam("skillInput") String skillName,
+                           @RequestParam("levelInput") String level,
+                           @RequestParam("moreInfosInput") String moreInfos){
+        try {
+            Skill skill = skillRepository.findBySkillName(skillName);
+            Candidate candidate = candidateRepository.findById(canID).orElse(null);
+
+            CandidateSkillId candidateSkillId = new CandidateSkillId();
+            candidateSkillId.setCanId(canID);
+            candidateSkillId.setSkillId(skill.getId());
+
+            CandidateSkill candidateSkill = new CandidateSkill();
+            candidateSkill.setId(candidateSkillId);
+            candidateSkill.setCan(candidate);
+            candidateSkill.setSkill(skill);
+            candidateSkill.setSkillLevel(SkillLevel.valueOf(level.toUpperCase()));
+            candidateSkill.setMoreInfos(moreInfos);
+            candidateSkillRepository.save(candidateSkill);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/candidate/detail?canID=" + canID;
+        }
+        return "redirect:/candidate/detail?canID=" + canID;
+    }
+
+    @PostMapping("/detail/editSkill")
+    public String editSkill(@RequestParam("canId") Long canID,
+                            @RequestParam("skillId") Long skillID,
+                            @RequestParam("levelInput") String level,
+                            @RequestParam("moreInfosInput") String moreInfos){
+        Candidate candidate = candidateRepository.findById(canID).orElse(null);
+        Skill skill = skillRepository.findById(skillID).orElse(null);
+        CandidateSkill candidateSkill = candidateSkillRepository.findByCanAndSkill(candidate, skill);
+        candidateSkill.setSkillLevel(SkillLevel.valueOf(level.toUpperCase()));
+        candidateSkill.setMoreInfos(moreInfos);
+        candidateSkillRepository.save(candidateSkill);
+        return "redirect:/candidate/detail?canID=" + canID;
+    }
+
+    @GetMapping("/detail/deleteSkill")
+    public String deleteSkill(@RequestParam Long canID,
+                              @RequestParam Long skillID){
+        Candidate candidate = candidateRepository.findById(canID).orElse(null);
+        Skill skill = skillRepository.findById(skillID).orElse(null);
+        CandidateSkill candidateSkill = candidateSkillRepository.findByCanAndSkill(candidate, skill);
+        candidateSkillRepository.delete(candidateSkill);
+        return "redirect:/candidate/detail?canID=" + canID;
+    }
+
+
 }

@@ -73,14 +73,16 @@
             </div>
             <div class="secondForm">
                 <h3>Experience</h3>
-                <div th:if="${experience != null}">
-                    <h5>Company: <span th:text="${experience.companyName}"></span></h5>
-                    <h5>From: <span th:text="${experience.fromDate}"></span></h5>
-                    <h5>To: <span th:text="${experience.toDate}"></span></h5>
-                    <h5>Role: <span th:text="${experience.role}"></span></h5>
-                    <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+                <div th:if="${experiences != null and !experiences.isEmpty()}">
+                    <div th:each="experience : ${experiences}">
+                        <h5>Company: <span th:text="${experience.companyName}"></span></h5>
+                        <h5>From: <span th:text="${experience.fromDate}"></span></h5>
+                        <h5>To: <span th:text="${experience.toDate}"></span></h5>
+                        <h5>Role: <span th:text="${experience.role}"></span></h5>
+                        <h5>Work description: <span th:text="${experience.workDescription}"></span></h5>
+                    </div>
                 </div>
-                <div th:if="${experience == null}">
+                <div th:if="${experiences == null or experiences.isEmpty()}">
                     <p>No experience available for this candidate.</p>
                 </div>
             </div>
