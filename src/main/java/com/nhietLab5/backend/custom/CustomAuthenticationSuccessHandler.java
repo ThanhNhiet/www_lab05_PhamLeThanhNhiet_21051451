@@ -22,10 +22,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // Lấy email từ Authentication
         String email = authentication.getName();
 
-        // Tìm thông tin User từ database
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user != null && user.getStatus().equals(UserStatus.ACTIVE)) {
@@ -35,7 +33,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             } else if ("COMPANY".equalsIgnoreCase(user.getRole())) {
                 redirectUrl = "company/candidateList?companyId=" + user.getCompany().getId();
             } else {
-                redirectUrl = "/dashboard";
+                redirectUrl = "admin/userDashboard?adminId=" + user.getId();
             }
 
             response.sendRedirect(redirectUrl);
