@@ -19,4 +19,4 @@
 + Tìm kiếm, gỡ các tin tuyển dụng của công ty.
 4. Các chức năng khác: đăng nhập, đăng ký (sử dụng otp bên gmail để xác thực).
 
-### Báo cáo chi tiết và ảnh demo ở 21051451_PhamLeThanhNhiet_BaoCao.docx
+### Báo cáo chi tiết và ảnh demo ở 21051451_PhamLeThanhNhiet_BaoCao.pdf
