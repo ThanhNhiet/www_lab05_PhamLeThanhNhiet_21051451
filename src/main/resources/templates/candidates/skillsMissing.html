@@ -68,13 +68,25 @@
 
         <article class="right">
             <div class="firstForm">
-                <h4>Job Info</h4>
-                Job id: <span th:text="${job.id}"></span><br>
-                Job name: <span th:text="${job.jobName}"></span><br>
-                Company name: <span th:text="${job.company.compName}"></span>
+                <h1>About This Job</h1>
+                <div>
+                    <p>
+                        Job id: <span th:text="${job.id}"></span><br>
+                        Job name: <span th:text="${job.jobName}"></span><br>
+                        Job description: <span th:text="${job.jobDesc}"></span><br>
+                    </p>
+                </div>
             </div>
             <div class="secondForm">
-
+                <h1>Company Information</h1>
+                <p>
+                    Company name: <span th:text="${job.company.compName}"></span><br>
+                    Company address: <span th:text="${job.company.address}"></span><br>
+                    Company phone: <span th:text="${job.company.phone}"></span><br>
+                    Company email: <span th:text="${job.company.email}"></span><br>
+                    Company website: <span th:text="${job.company.webUrl}"></span><br>
+                    About company: <span th:text="${job.company.about}"></span><br>
+                </p>
             </div>
         </article>
     </div>

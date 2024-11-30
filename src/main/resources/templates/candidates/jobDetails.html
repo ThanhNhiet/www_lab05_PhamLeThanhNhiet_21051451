@@ -48,7 +48,6 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Job Name</th>
                     <th>Skill Name</th>
                     <th>More Infos</th>
                     <th>Skill Level</th>
@@ -58,7 +57,6 @@
                 <tr th:each="item, iStat : ${job.jobSkills}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
-                    <td th:text="${item.job.jobName}"></td>
                     <td th:text="${item.skill.skillName}"></td>
                     <td th:text="${item.moreInfos}"></td>
                     <td th:text="${item.skillLevel}"></td>
@@ -69,18 +67,25 @@
 
         <article class="right">
             <div class="firstForm">
-                <h1>Job Detail</h1>
+                <h1>About This Job</h1>
                 <div>
                     <p>
                         Job id: <span th:text="${job.id}"></span><br>
                         Job name: <span th:text="${job.jobName}"></span><br>
                         Job description: <span th:text="${job.jobDesc}"></span><br>
-                        Company name: <span th:text="${job.company.compName}"></span><br>
                     </p>
                 </div>
             </div>
             <div class="secondForm">
-
+                <h1>Company Information</h1>
+                <p>
+                    Company name: <span th:text="${job.company.compName}"></span><br>
+                    Company address: <span th:text="${job.company.address}"></span><br>
+                    Company phone: <span th:text="${job.company.phone}"></span><br>
+                    Company email: <span th:text="${job.company.email}"></span><br>
+                    Company website: <span th:text="${job.company.webUrl}"></span><br>
+                    About company: <span th:text="${job.company.about}"></span><br>
+                </p>
             </div>
         </article>
     </div>

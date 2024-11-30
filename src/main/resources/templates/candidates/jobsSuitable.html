@@ -50,6 +50,7 @@
                 <th>Job Name</th>
                 <th>Company</th>
                 <th>Job Description</th>
+                <th>More Detail</th>
             </tr>
             </thead>
             <tbody>
@@ -59,6 +60,9 @@
                 <td th:text="${job.jobName}"></td>
                 <td th:text="${job.company}"></td>
                 <td th:text="${job.jobDesc}"></td>
+                <td>
+                    <a th:href="@{/candidate/jobDetail(jobId=${job.id}, candidateId=${candidate.id})}">Detail</a>
+                </td>
             </tr>
             </tbody>
         </table>
