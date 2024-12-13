@@ -98,7 +98,7 @@ public class AdminController {
             user.setPassword(password);
             user.setStatus(UserStatus.ACTIVE);
             user.setRole("ADMIN");
-            userRepository.save(user);
+            userService.saveAdmin(user);
             return "redirect:/admin/userDashboard?adminId=" + adminId;
         } catch (Exception e) {
             e.printStackTrace();
