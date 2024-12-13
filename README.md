@@ -1,4 +1,16 @@
 ## Phạm Lê Thanh Nhiệt 21051451
+### Công nghệ sử dụng:
+1. Backend:
++ Framework: Spring Boot.
++ Cơ sở dữ liệu: MariaDB.
++ ORM: Spring Data JPA.
++ Spring Mail
++ Spring Security
+2. Frontend:
++ Template engine: Thymeleaf.
++ Thư viện giao diện: Bootstrap.
+3. Thư viện hỗ trợ com.neovisionaries: Xử lý mã quốc gia.
+
 ### Các chức năng chính:
 1. Đối với công ty:
 + Hiển thị danh sách tất cả ứng viên khi log vào.
